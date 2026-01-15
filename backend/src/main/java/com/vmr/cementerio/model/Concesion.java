@@ -11,6 +11,7 @@ import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import java.time.LocalDate;
+import jakarta.persistence.OneToOne;
 
 @Entity
 @Getter
@@ -29,6 +30,7 @@ public class Concesion {
 
     private LocalDate fechaFin;
 
+    @OneToOne
     @JoinColumn(name = "parcela_id")
     private Parcela parcela;
 

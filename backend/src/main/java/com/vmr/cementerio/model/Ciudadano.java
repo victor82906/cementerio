@@ -1,6 +1,5 @@
 package com.vmr.cementerio.model;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
@@ -19,7 +18,7 @@ import jakarta.persistence.FetchType;
 @AllArgsConstructor
 public class Ciudadano extends Usuario {
     
-    @Column(unique = true, nullable = false)
+    //@Column(unique = true, nullable = false)
     private String dni;
     private String apellidos;
     
