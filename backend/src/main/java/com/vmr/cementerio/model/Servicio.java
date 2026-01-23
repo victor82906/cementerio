@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.time.LocalDate;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 
 @Entity
 @Getter
@@ -23,8 +24,6 @@ public class Servicio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private double precio;
-
     private LocalDate fecha;
 
     @ManyToOne
@@ -34,5 +33,10 @@ public class Servicio {
     @ManyToOne
     @JoinColumn(name = "parcela_id")
     private Parcela parcela;
+
+    @OneToOne
+    @JoinColumn(name = "factura_id")
+    private Factura factura;
+
 
 }

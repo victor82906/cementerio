@@ -8,7 +8,6 @@ import lombok.Setter;
 import java.util.HashSet;
 import java.util.Set;
 
-
 @Entity
 @Getter
 @Setter
@@ -24,11 +23,7 @@ public class Parcela {
 
     private int capacidad;
 
-    private String estado;
-
-    @ManyToOne
-    @JoinColumn(name = "tipo_parcela_id")
-    private TipoZona tipoParcela;
+    private boolean ocupada;
 
     @ManyToOne
     @JoinColumn(name = "zona_id")

@@ -5,12 +5,12 @@ import java.util.List;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Getter
@@ -36,7 +36,8 @@ public class Usuario implements UserDetails {
 
     private String foto;
 
-    @ManyToOne
+    @NotNull(message = "El rol es obligatorio")
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "rol_id")
     private Rol rol;
 

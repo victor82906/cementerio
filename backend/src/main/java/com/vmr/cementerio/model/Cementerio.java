@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.HashSet;
 
+
 @Entity
 @Getter
 @Setter
@@ -40,6 +41,9 @@ public class Cementerio {
 
     @OneToMany(mappedBy = "cementerio")
     private Set<Zona> zonas = new HashSet<>();
+
+    @OneToMany(mappedBy = "cementerio")
+    private Set<Tarifa> tarifas = new HashSet<>();
 
 
 }

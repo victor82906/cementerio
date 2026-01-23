@@ -1,5 +1,6 @@
 package com.vmr.cementerio.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
@@ -20,6 +21,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class Ayuntamiento extends Usuario {
     
+    @Column(unique = true)
     private String codigo;
 
     @ManyToMany
@@ -28,7 +30,7 @@ public class Ayuntamiento extends Usuario {
     inverseJoinColumns = @JoinColumn(name = "ciudadano_id"))
     private Set<Ciudadano> ciudadanos = new HashSet<>();
 
-    @OneToMany(mappedBy = "ayuntamiento", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "ayuntamiento", fetch = FetchType.LAZY)
     private Set<Cementerio> cementerios = new HashSet<>();
 
 }

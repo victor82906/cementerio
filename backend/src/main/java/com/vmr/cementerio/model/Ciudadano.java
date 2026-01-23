@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.Column;
 
 @Entity
 @Getter
@@ -18,8 +19,9 @@ import jakarta.persistence.FetchType;
 @AllArgsConstructor
 public class Ciudadano extends Usuario {
     
-    //@Column(unique = true, nullable = false)
+    @Column(unique = true)
     private String dni;
+
     private String apellidos;
     
     @ManyToMany(mappedBy = "ciudadanos")

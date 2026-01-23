@@ -1,0 +1,71 @@
+package com.vmr.cementerio.controller;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import com.vmr.cementerio.dto.response.AyuntamientoDTO;
+import com.vmr.cementerio.service.AyuntamientoService;
+import java.util.List;
+import jakarta.validation.Valid;
+import com.vmr.cementerio.dto.response.CementerioDTO;
+import com.vmr.cementerio.service.CementerioService;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/ayuntamiento")
+public class AyuntamientoController {
+    
+    private final AyuntamientoService ayuntamientoService;
+    private final CementerioService cementerioService;
+
+    @GetMapping
+    public ResponseEntity<List<AyuntamientoDTO>> getAll(@RequestParam(required = false) String nombre){
+        if(nombre == null || nombre.isBlank()){
+            return ResponseEntity.ok(ayuntamientoService.getAll());
+        }else{
+            return ResponseEntity.ok(ayuntamientoService.buscaPorNombre(nombre));
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AyuntamientoDTO> findById(@PathVariable Long id){
+        return ResponseEntity.ok(ayuntamientoService.findById(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<AyuntamientoDTO> save(@Valid @RequestBody AyuntamientoDTO ayuntamientoDTO){
+        return ResponseEntity.status(HttpStatus.CREATED).body(ayuntamientoService.save(ayuntamientoDTO));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AyuntamientoDTO> update(@PathVariable Long id, @Valid @RequestBody AyuntamientoDTO ayuntamientoDTO){
+        return ResponseEntity.ok(ayuntamientoService.update(id, ayuntamientoDTO));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        ayuntamientoService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/cementerio")
+    public ResponseEntity<List<CementerioDTO>> getCementerios(@PathVariable Long id){
+        return ResponseEntity.ok(cementerioService.findByAyuntamientoId(id));
+    }
+    
+    @PostMapping("/{id}/cementerio")
+    public ResponseEntity<CementerioDTO> saveCementerio(@PathVariable Long id, @Valid @RequestBody CementerioDTO cementerioDTO){
+        return ResponseEntity.status(HttpStatus.CREATED).body(cementerioService.save(id, cementerioDTO));
+    }
+
+
+}

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.HashSet;
 import java.util.Set;
+import jakarta.persistence.Column;
 
 
 @Entity
@@ -24,14 +25,16 @@ public class TipoServicio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String nombre;
 
     private String descripcion;
 
-    private double precio;
-
     @OneToMany(mappedBy = "tipoServicio")
     private Set<Servicio> servicios = new HashSet<>();
+
+    @OneToMany(mappedBy = "tipoServicio")
+    private Set<Tarifa> tarifas = new HashSet<>();
 
 
 }

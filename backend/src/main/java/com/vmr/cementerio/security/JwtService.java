@@ -5,21 +5,17 @@ import java.time.temporal.ChronoUnit;
 import javax.crypto.SecretKey;
 import org.springframework.stereotype.Service;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.JwtBuilder;
 import java.util.Date;
 import com.vmr.cementerio.model.Usuario;
+import lombok.RequiredArgsConstructor;
 
 
 @Service
+@RequiredArgsConstructor
 public class JwtService {
 
     // private final JwtBuilder jwtBuilder;
     private final SecretKey secretKey;
-
-    public JwtService(SecretKey secretKey) {
-        // this.jwtBuilder = Jwts.builder();
-        this.secretKey = secretKey;
-    }
 
     public String generateToken(Usuario usuario) {
         Instant now = Instant.now();
@@ -27,7 +23,8 @@ public class JwtService {
             
         return Jwts.builder()
             // id del usuario
-            .subject(String.valueOf(usuario.getId()))
+            // .subject(String.valueOf(usuario.getId()))
+            .subject(usuario.getEmail())
             // La clave secreta para firmar el token y saber que es nuestro cuando lleguen las peticiones del frontend
             .signWith(secretKey)
             // Fecha emisión del token
