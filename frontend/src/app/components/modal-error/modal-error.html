@@ -1,0 +1,24 @@
+<div class="modal fade" id="modalError" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg" style="background-color: #0a192f;">
+      
+      <div class="modal-header border-bottom border-secondary text-white py-2" id="aviso">
+        <h5 class="modal-title fw-bold small">AVISO DEL SISTEMA</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body p-4 text-white">
+        <h4 class="h5 fw-bold mb-3">{{ titulo }}</h4>
+        @for (mensaje of mensajes; track $index) {
+            <p class="text-white-50 small mb-0">{{mensaje}}</p>
+        }
+      </div>
+
+      <div class="modal-footer border-top border-secondary">
+        <button type="button" class="btn btn-outline-light px-4 py-1 fw-bold" data-bs-dismiss="modal">
+          CERRAR
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

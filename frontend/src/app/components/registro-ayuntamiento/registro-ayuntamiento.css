@@ -1,0 +1,24 @@
+/* Estilo para los inputs al escribir */
+.form-control:focus {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: #ffffff;
+  color: white;
+  box-shadow: none;
+}
+
+/* El botón con el hover blanco */
+.custom-hover-btn {
+  border: 2px solid white;
+  border-radius: 4px;
+  transition: 0.3s ease;
+}
+
+.custom-hover-btn:hover {
+  background-color: white;
+  color: #0a192f;
+}
+
+/* Errores en rojo puro para que se vean sobre el azul oscuro */
+.text-danger {
+  color: #ff3333;
+}

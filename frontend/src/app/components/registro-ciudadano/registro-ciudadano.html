@@ -1,0 +1,140 @@
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-11 col-lg-10">
+
+            <div class="p-5 rounded-3 border border-secondary shadow-lg" style="background-color: #0a192f;">
+
+                <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
+                    <span class="btn btn-link text-white" routerLink="/home"><i class="bi bi-arrow-left me-2"></i>Volver al Inicio</span>
+                    <span class="btn btn-link text-white" routerLink="/registro-ayuntamiento">Ir a Registro
+                        Ayuntamiento</span>
+                </div>
+
+                <h2 class="text-white fw-bold mb-4 text-uppercase italic" style="letter-spacing: 1px;">Registro de
+                    Ciudadano
+                </h2>
+
+                <form [formGroup]="registroCiudadano" (ngSubmit)="registrar()">
+
+                    <div class="row g-4 text-white">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label small fw-bold">NOMBRE:</label>
+                                <input type="text" class="form-control bg-transparent text-white border-secondary"
+                                    id="nombre" formControlName="nombre">
+                                @if(registroCiudadano.get("nombre")?.touched) {
+                                @if(registroCiudadano.get("nombre")?.errors?.["required"]) {
+                                <span class="text-danger d-block mt-1 fw-bold small">Nombre obligatorio</span>
+                                }@else if (registroCiudadano.get("nombre")?.errors?.["pattern"]){
+                                <span class="text-danger d-block mt-1 fw-bold small">Solo puede contener letras</span>
+                                }
+                                }
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="apellidos" class="form-label small fw-bold">APELLIDOS:</label>
+                                <input type="text" class="form-control bg-transparent text-white border-secondary"
+                                    id="apellidos" formControlName="apellidos">
+                                @if(registroCiudadano.get("apellidos")?.touched) {
+                                @if(registroCiudadano.get("apellidos")?.errors?.["required"]) {
+                                <span class="text-danger d-block mt-1 fw-bold small">Los apellidos son obligatorios</span>
+                                }@else if(registroCiudadano.get("apellidos")?.errors?.["pattern"]) {
+                                <span class="text-danger d-block mt-1 fw-bold small">Los apellidos solo contienen letras</span>
+                                }
+                                }
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="direccion" class="form-label small fw-bold">DIRECCIÓN:</label>
+                                <input type="text" class="form-control bg-transparent text-white border-secondary"
+                                    id="direccion" formControlName="direccion" maxlength="50">
+                                @if(registroCiudadano.get("direccion")?.touched &&
+                                registroCiudadano.get("direccion")?.errors?.["maxlength"]) {
+                                <span class="text-danger d-block mt-1 fw-bold small">Direccion demasiado larga</span>
+                                }
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="telefono" class="form-label small fw-bold">TELÉFONO:</label>
+                                <input type="tel" class="form-control bg-transparent text-white border-secondary"
+                                    id="telefono" formControlName="telefono">
+                                @if(registroCiudadano.get("telefono")?.touched) {
+                                @if(registroCiudadano.get("telefono")?.errors?.["required"]) {
+                                <span class="text-danger d-block mt-1 fw-bold small">Telefono obligatorio</span>
+                                }@else if(registroCiudadano.get("telefono")?.errors?.["pattern"]) {
+                                <span class="text-danger d-block mt-1 fw-bold small">Telefono no valido</span>
+                                }
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <div class="mb-3">
+                                <label for="dni" class="form-label small fw-bold">DNI:</label>
+                                <input type="text" name="dni"
+                                    class="form-control bg-transparent text-white border-secondary" id="dni"
+                                    formControlName="dni">
+                                @if(registroCiudadano.get("dni")?.touched) {
+                                @if(registroCiudadano.get("dni")?.errors?.["required"]) {
+                                <span class="text-danger d-block mt-1 fw-bold small">DNI obligatorio</span>
+                                }@else if(registroCiudadano.get("dni")?.errors?.["error"]) {
+                                <span class="text-danger d-block mt-1 fw-bold small">DNI no valido</span>
+                                }
+                                }
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="email" class="form-label small fw-bold">EMAIL:</label>
+                                <input type="email" class="form-control bg-transparent text-white border-secondary"
+                                    id="email" formControlName="email">
+                                @if(registroCiudadano.get("email")?.touched) {
+                                @if(registroCiudadano.get("email")?.errors?.["required"]) {
+                                <span class="text-danger d-block mt-1 fw-bold small">Email obligatorio</span>
+                                }@else if(registroCiudadano.get("email")?.errors?.["email"]) {
+                                <span class="text-danger d-block mt-1 fw-bold small">Email no valido</span>
+                                }
+                                }
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="contrasena" class="form-label small fw-bold">CONTRASEÑA:</label>
+                                <input type="password" class="form-control bg-transparent text-white border-secondary"
+                                    id="contrasena" formControlName="contrasena">
+                                @if(registroCiudadano.get("contrasena")?.touched) {
+                                @if(registroCiudadano.get("contrasena")?.errors?.["required"]) {
+                                <span class="text-danger d-block mt-1 fw-bold small">Contraseña obligatoria</span>
+                                }@else if(registroCiudadano.get("contrasena")?.errors?.["minlength"]) {
+                                <span class="text-danger d-block mt-1 fw-bold small">Debe tener 8 o más
+                                    caracteres</span>
+                                }
+                                }
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="repetirContrasena" class="form-label small fw-bold">REPETIR
+                                    CONTRASEÑA:</label>
+                                <input type="password" class="form-control bg-transparent text-white border-secondary"
+                                    id="repetirContrasena" formControlName="repetirContrasena">
+                                @if(registroCiudadano.get("repetirContrasena")?.touched &&
+                                registroCiudadano.errors?.["contrasena"]) {
+                                <span
+                                    class="text-danger d-block mt-1 fw-bold small">{{registroCiudadano.errors?.["contrasena"]}}</span>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="mt-5 text-center">
+                            <button type="submit" class="btn btn-outline-light px-5 py-2 fw-bold custom-hover-btn">
+                                REGISTRAR
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-modal-error #modalError></app-modal-error>

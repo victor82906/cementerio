@@ -1,0 +1,74 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark-custom sticky-top shadow">
+    <div class="container">
+        <a class="navbar-brand align-items-center d-flex" href="">
+            <img src="RIPAPP.png" alt="Logo" height="40" class="d-inline-block align-text-top">
+            <span class="fw-bold ms-2">Eterno</span>
+        </a>
+        <button class="btn btn-outline-light ms-auto" type="button" routerLink="/login">Iniciar Sesión</button>
+    </div>
+</nav>
+
+<div class="bg-dark-custom py-4 shadow-sm mb-5">
+    <div class="container text-center text-white">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="input-group">
+                    <input type="text" [(ngModel)]="busqueda" class="form-control"
+                        placeholder="Nombre del cementerio...">
+                    <button (click)="buscar()" class="btn btn-primary-custom">Buscar</button>
+                </div>
+                <small class="text-secondary mt-2 d-block">Resultados para: {{ busqueda || 'Todos los cementerios'
+                    }}</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5 mb-5">
+    <div class="row g-4">
+
+        @for (cementerio of cementerios; track cementerio.id) {
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 border-secondary shadow-sm overflow-hidden bg-dark-custom text-white">
+
+                <div class="ratio ratio-16x9 bg-secondary">
+                    <img [src]="cementerio.foto || 'assets/placeholder-ayto.jpg'" class="card-img-top object-fit-cover"
+                        [alt]="cementerio.nombre" style="opacity: 0.9;">
+                </div>
+
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title fw-bold text-white mb-1">{{ cementerio.nombre }}</h5>
+
+                    <p class="text-light small mb-3 opacity-75">
+                        <i class="bi bi-geo-alt me-1 text-primary-custom"></i>{{ cementerio.direccion }}
+                    </p>
+
+                    <div class="mt-auto pt-3 border-top border-secondary">
+                        <div class="d-flex align-items-start mb-3">
+                            <div>
+                                <p class="mb-0 x-small text-uppercase text-light fw-semibold opacity-50"
+                                    style="font-size: 0.7rem;">Gestionado por</p>
+                                <p class="mb-0 small fw-bold text-white">{{ cementerio.ayuntamiento.nombre }}</p>
+
+                                <p class="mb-0 small text-light opacity-75">
+                                    <i class="bi bi-telephone me-1"></i>{{ cementerio.ayuntamiento.telefono }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-outline-light w-100 fw-bold py-2 shadow-sm custom-hover-btn">
+                            VER CEMENTERIO
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        } @empty {
+        <div class="col-12 text-center py-5">
+            <p class="text-muted">No se han encontrado resultados para esta búsqueda.</p>
+            <button (click)="busqueda=''; buscar()" class="btn btn-link text-dark">Ver listado completo</button>
+        </div>
+        }
+
+    </div>
+</div>
