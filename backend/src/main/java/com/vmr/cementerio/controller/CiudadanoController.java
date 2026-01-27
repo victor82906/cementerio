@@ -2,9 +2,9 @@ package com.vmr.cementerio.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,11 +12,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.vmr.cementerio.service.CiudadanoService;
+
 import jakarta.validation.Valid;
 import java.util.List;
 import com.vmr.cementerio.dto.response.CiudadanoDTO;
 import org.springframework.web.bind.annotation.RequestBody;
+import com.vmr.cementerio.dto.response.ConcesionDTO;
+import com.vmr.cementerio.service.CiudadanoService;
+import com.vmr.cementerio.service.ConcesionService;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class CiudadanoController {
     
     private final CiudadanoService ciudadanoService;
+    private final ConcesionService concesionService;
 
     @GetMapping
     public ResponseEntity<List<CiudadanoDTO>> getAll(@RequestParam(required = false) String nombre){
@@ -35,6 +39,7 @@ public class CiudadanoController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('CIUDADANO') and #id == principal.id)")
     public ResponseEntity<CiudadanoDTO> findById(@PathVariable Long id){
         return ResponseEntity.ok(ciudadanoService.findById(id));
     }
@@ -45,6 +50,7 @@ public class CiudadanoController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('CIUDADANO') and #id == principal.id)")
     public ResponseEntity<CiudadanoDTO> update(@PathVariable Long id, @Valid @RequestBody CiudadanoDTO ciudadanoDTO){
         return ResponseEntity.ok(ciudadanoService.update(id, ciudadanoDTO));
     }
@@ -53,6 +59,12 @@ public class CiudadanoController {
     public ResponseEntity<Void> delete(@PathVariable Long id){
         ciudadanoService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/concesion")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('CIUDADANO') and #id == principal.id)")
+    public ResponseEntity<List<ConcesionDTO>> getConcesion(@PathVariable Long id){
+        return ResponseEntity.ok(concesionService.findByCiudadanoId(id));
     }
 
 

@@ -28,7 +28,7 @@ public class AyuntamientoDTO {
     @Pattern(regexp = "^[679][0-9]{8}$", message = "Formato de teléfono no válido")
     private String telefono;
 
-    @Size(max = 100, message = "La dirección es demasiado larga")
+    @Size(max = 50, message = "La dirección es demasiado larga")
     private String direccion;
 
     private String foto;

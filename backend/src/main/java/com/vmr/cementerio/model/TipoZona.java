@@ -19,6 +19,7 @@ public class TipoZona {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     @Column(unique = true)
     private TipoParcela nombre;
 

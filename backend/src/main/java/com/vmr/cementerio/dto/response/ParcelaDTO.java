@@ -22,6 +22,4 @@ public class ParcelaDTO {
 
     // private Set<DifuntoDTO> difuntos;
 
-    // private ConcesionDTO concesion;
-
 }

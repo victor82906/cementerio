@@ -1,0 +1,15 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: cementerio-db
+    environment:
+      MYSQL_DATABASE: cementerio_db
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: cementerio
+      MYSQL_PASSWORD: cementerio
+    ports:
+      - "3333:3306"
+    volumes:
+      # OPCIÓN RECOMENDADA: 
+      # Mapea la carpeta "./mysql_data" de tu PC a la carpeta de datos de MySQL en el contenedor.
+      - ./database:/var/lib/mysql

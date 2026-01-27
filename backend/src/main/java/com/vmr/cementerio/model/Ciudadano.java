@@ -1,7 +1,6 @@
 package com.vmr.cementerio.model;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,9 +22,6 @@ public class Ciudadano extends Usuario {
     private String dni;
 
     private String apellidos;
-    
-    @ManyToMany(mappedBy = "ciudadanos")
-    private Set<Ayuntamiento> ayuntamientos = new HashSet<>();
 
     @OneToMany(mappedBy = "ciudadano", fetch = FetchType.EAGER)
     private Set<Concesion> concesiones = new HashSet<>();

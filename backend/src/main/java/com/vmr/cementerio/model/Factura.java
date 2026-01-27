@@ -60,6 +60,10 @@ public class Factura {
     @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$", message = "El nombre solo puede contener letras")
     private String nombreAyto;
 
+    @NotBlank(message = "El concepto es obligatorio")
+    @Size(max = 100, message = "El concepto es demasiado largo")
+    private String concepto;
+
     @OneToOne(mappedBy = "factura")
     private Servicio servicio;
 

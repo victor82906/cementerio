@@ -2,6 +2,7 @@ package com.vmr.cementerio.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,10 +14,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.vmr.cementerio.dto.response.AyuntamientoDTO;
-import com.vmr.cementerio.service.AyuntamientoService;
 import java.util.List;
 import jakarta.validation.Valid;
 import com.vmr.cementerio.dto.response.CementerioDTO;
+import com.vmr.cementerio.service.AyuntamientoService;
 import com.vmr.cementerio.service.CementerioService;
 
 @RestController
@@ -37,6 +38,7 @@ public class AyuntamientoController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('AYUNTAMIENTO') and #id == principal.id)")
     public ResponseEntity<AyuntamientoDTO> findById(@PathVariable Long id){
         return ResponseEntity.ok(ayuntamientoService.findById(id));
     }
@@ -47,6 +49,7 @@ public class AyuntamientoController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('AYUNTAMIENTO') and #id == principal.id)")
     public ResponseEntity<AyuntamientoDTO> update(@PathVariable Long id, @Valid @RequestBody AyuntamientoDTO ayuntamientoDTO){
         return ResponseEntity.ok(ayuntamientoService.update(id, ayuntamientoDTO));
     }
@@ -58,11 +61,13 @@ public class AyuntamientoController {
     }
 
     @GetMapping("/{id}/cementerio")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('AYUNTAMIENTO') and #id == principal.id)")
     public ResponseEntity<List<CementerioDTO>> getCementerios(@PathVariable Long id){
         return ResponseEntity.ok(cementerioService.findByAyuntamientoId(id));
     }
     
     @PostMapping("/{id}/cementerio")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('AYUNTAMIENTO') and #id == principal.id)")
     public ResponseEntity<CementerioDTO> saveCementerio(@PathVariable Long id, @Valid @RequestBody CementerioDTO cementerioDTO){
         return ResponseEntity.status(HttpStatus.CREATED).body(cementerioService.save(id, cementerioDTO));
     }

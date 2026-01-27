@@ -17,8 +17,4 @@ public class ServicioDTO {
 
     private TipoServicioDTO tipoServicio;
 
-    private Long tipoServicioId;
-
-    private Long parcelaId;
-
 }

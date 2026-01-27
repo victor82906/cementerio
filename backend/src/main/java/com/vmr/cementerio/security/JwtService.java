@@ -5,6 +5,7 @@ import java.time.temporal.ChronoUnit;
 import javax.crypto.SecretKey;
 import org.springframework.stereotype.Service;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Date;
 import com.vmr.cementerio.model.Usuario;
 import lombok.RequiredArgsConstructor;
@@ -24,9 +25,9 @@ public class JwtService {
         return Jwts.builder()
             // id del usuario
             // .subject(String.valueOf(usuario.getId()))
-            .subject(usuario.getEmail())
+            .subject(String.valueOf(usuario.getEmail()))
             // La clave secreta para firmar el token y saber que es nuestro cuando lleguen las peticiones del frontend
-            .signWith(secretKey)
+            .signWith(secretKey, SignatureAlgorithm.HS256)
             // Fecha emisión del token
             .issuedAt(Date.from(now))
             // Fecha de expiración del token
@@ -37,15 +38,6 @@ public class JwtService {
             //.claim("avatar", user.getAvatarUrl())
             // Construye el token
             .compact();
-    }
-
-    public String extractEmail(String token) {
-        return Jwts.parser()
-            .verifyWith(secretKey)
-            .build()
-            .parseSignedClaims(token)
-            .getPayload()
-            .getSubject();
     }
 
     public boolean isTokenValid(String token, Usuario usuario) {
@@ -61,6 +53,15 @@ public class JwtService {
             .getPayload()
             .getExpiration();
         return expiration.before(new Date());
+    }
+
+    public String extractEmail(String token) {
+        return Jwts.parser()
+            .verifyWith(secretKey)
+            .build()
+            .parseSignedClaims(token)
+            .getPayload()
+            .getSubject();
     }
 
 }

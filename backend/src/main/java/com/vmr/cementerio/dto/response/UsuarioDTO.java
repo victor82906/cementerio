@@ -33,6 +33,6 @@ public class UsuarioDTO {
 
     private String foto;
 
-    private RolDTO rol;
+    private String rol;
 
 }

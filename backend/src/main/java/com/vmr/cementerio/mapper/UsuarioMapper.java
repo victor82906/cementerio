@@ -13,10 +13,11 @@ public interface UsuarioMapper {
 
     Usuario toUsuario(LoginRequest loginRequest);
 
-
+    @Mapping(target = "rol", ignore = true)
     Usuario toEntity(UsuarioDTO usaurioDTO);
 
-    @Mapping(target = "contrasena", ignore = true)    
+    @Mapping(target = "contrasena", ignore = true)   
+    @Mapping(source = "rol.nombre", target = "rol")
     UsuarioDTO toDTO(Usuario usuario);
 
 }

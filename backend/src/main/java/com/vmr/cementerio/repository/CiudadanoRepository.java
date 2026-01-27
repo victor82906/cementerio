@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface CiudadanoRepository extends JpaRepository<Ciudadano, Long> {
     Optional<Ciudadano> findByEmail(String email);
-
+    Optional<Ciudadano> findByDni(String dni);
     List<Ciudadano> findByNombreContainingIgnoreCaseOrApellidosContainingIgnoreCaseOrEmailContainingIgnoreCase(String nombre, String apellidos, String email);
 }
