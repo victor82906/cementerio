@@ -3,6 +3,7 @@ package com.vmr.cementerio.service;
 import java.util.List;
 import com.vmr.cementerio.dto.response.AyuntamientoDTO;
 import com.vmr.cementerio.model.Ayuntamiento;
+import com.vmr.cementerio.dto.response.AyuntamientoEditDTO;
 
 public interface AyuntamientoService {
 
@@ -14,7 +15,7 @@ public interface AyuntamientoService {
 
     public AyuntamientoDTO save(AyuntamientoDTO ayuntamientoDTO);
 
-    public AyuntamientoDTO update(Long id, AyuntamientoDTO ayuntamientoDTO);
+    public AyuntamientoEditDTO update(Long id, AyuntamientoEditDTO ayuntamientoDTO);
 
     public void delete(Long id);
 

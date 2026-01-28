@@ -7,17 +7,11 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class CiudadanoDTO {
-
-    private Long id;
+public class CiudadanoEditDTO {
 
     @NotBlank(message = "El email es obligatorio")
     @Email(message = "Debe proporcionar un formato de email válido")
     private String email;
-
-    @NotBlank(message = "La contraseña no puede estar vacia")
-    @Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres")
-    private String contrasena;
 
     @NotBlank(message = "El nombre es obligatorio")
     @Size(max = 50, message = "El nombre es demasiado largo")
@@ -30,8 +24,6 @@ public class CiudadanoDTO {
 
     @Size(max = 100, message = "La dirección es demasiado larga")
     private String direccion;
-
-    private String foto;
 
     @NotBlank(message = "El DNI es obligatorio")
     @Pattern(regexp = "^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKE]$", message = "El formato del DNI no es válido")

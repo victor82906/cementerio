@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.validation.Valid;
 import java.util.List;
 import com.vmr.cementerio.dto.response.CiudadanoDTO;
+import com.vmr.cementerio.dto.response.CiudadanoEditDTO;
+
 import org.springframework.web.bind.annotation.RequestBody;
 import com.vmr.cementerio.dto.response.ConcesionDTO;
 import com.vmr.cementerio.service.CiudadanoService;
@@ -51,7 +53,7 @@ public class CiudadanoController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN') or (hasRole('CIUDADANO') and #id == principal.id)")
-    public ResponseEntity<CiudadanoDTO> update(@PathVariable Long id, @Valid @RequestBody CiudadanoDTO ciudadanoDTO){
+    public ResponseEntity<CiudadanoEditDTO> update(@PathVariable Long id, @Valid @RequestBody CiudadanoEditDTO ciudadanoDTO){
         return ResponseEntity.ok(ciudadanoService.update(id, ciudadanoDTO));
     }
 

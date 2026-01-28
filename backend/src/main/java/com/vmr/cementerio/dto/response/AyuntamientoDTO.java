@@ -24,7 +24,7 @@ public class AyuntamientoDTO {
     @Pattern(regexp = "^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$", message = "El nombre solo puede contener letras")
     private String nombre;
 
-    // @NotBlank(message = "El telefono es obligatorio")
+    @NotBlank(message = "El telefono es obligatorio")
     @Pattern(regexp = "^[679][0-9]{8}$", message = "Formato de teléfono no válido")
     private String telefono;
 

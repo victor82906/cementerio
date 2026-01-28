@@ -2,6 +2,7 @@ package com.vmr.cementerio.service;
 
 import com.vmr.cementerio.dto.response.CiudadanoDTO;
 import java.util.List;
+import com.vmr.cementerio.dto.response.CiudadanoEditDTO;
 
 public interface CiudadanoService {
     
@@ -13,7 +14,7 @@ public interface CiudadanoService {
 
     public CiudadanoDTO save(CiudadanoDTO ciudadanoDTO);
 
-    public CiudadanoDTO update(Long id, CiudadanoDTO ciudadanoDTO);
+    public CiudadanoEditDTO update(Long id, CiudadanoEditDTO ciudadanoDTO);
 
     public void delete(Long id);
 

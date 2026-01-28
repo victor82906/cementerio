@@ -19,6 +19,7 @@ import jakarta.validation.Valid;
 import com.vmr.cementerio.dto.response.CementerioDTO;
 import com.vmr.cementerio.service.AyuntamientoService;
 import com.vmr.cementerio.service.CementerioService;
+import com.vmr.cementerio.dto.response.AyuntamientoEditDTO;
 
 @RestController
 @RequiredArgsConstructor
@@ -50,7 +51,7 @@ public class AyuntamientoController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN') or (hasRole('AYUNTAMIENTO') and #id == principal.id)")
-    public ResponseEntity<AyuntamientoDTO> update(@PathVariable Long id, @Valid @RequestBody AyuntamientoDTO ayuntamientoDTO){
+    public ResponseEntity<AyuntamientoEditDTO> update(@PathVariable Long id, @Valid @RequestBody AyuntamientoEditDTO ayuntamientoDTO){
         return ResponseEntity.ok(ayuntamientoService.update(id, ayuntamientoDTO));
     }
 

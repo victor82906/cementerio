@@ -30,6 +30,7 @@ public class TipoServicioServiceImpl implements TipoServicioService{
     }
 
     public TipoServicioDTO save(TipoServicioDTO tipoServicioDTO){
+        tipoServicioDTO.setNombre(tipoServicioDTO.getNombre().trim().toUpperCase());
         if(tipoServicioRepository.findByNombre(tipoServicioDTO.getNombre()).isPresent()){
             throw new IllegalArgumentException("El tipo de servicio ya existe.");
         }else{

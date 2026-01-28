@@ -11,10 +11,11 @@ import com.vmr.cementerio.model.Rol;
 import com.vmr.cementerio.repository.AyuntamientoRepository;
 import com.vmr.cementerio.repository.RolRepository;
 import com.vmr.cementerio.repository.UsuarioRepository;
-
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import com.vmr.cementerio.service.AyuntamientoService;
+import com.vmr.cementerio.dto.response.AyuntamientoEditDTO;
+import com.vmr.cementerio.mapper.AyuntamientoEditMapper;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +26,8 @@ public class AyuntamientoServiceImpl implements AyuntamientoService{
     private final PasswordEncoder passwordEncoder;
     private final AyuntamientoMapper ayuntamientoMapper;
     private final UsuarioRepository usuarioRepository;
-    
+    private final AyuntamientoEditMapper ayuntamientoEditMapper;
+
 
     public List<AyuntamientoDTO> getAll(){
         return ayuntamientoRepository.findAll()
@@ -60,12 +62,12 @@ public class AyuntamientoServiceImpl implements AyuntamientoService{
         }
     }
 
-    public AyuntamientoDTO update(Long id, AyuntamientoDTO ayuntamientoDTO){
+    public AyuntamientoEditDTO update(Long id, AyuntamientoEditDTO ayuntamientoDTO){
         Ayuntamiento ayuntamiento = ayuntamientoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Ayuntamiento no encontrado"));
 
-        ayuntamiento = ayuntamientoMapper.toEntity(ayuntamientoDTO);
-        return ayuntamientoMapper.toDTO(ayuntamientoRepository.save(ayuntamiento));
+        ayuntamientoEditMapper.updateEntityFromDTO(ayuntamientoDTO, ayuntamiento);
+        return ayuntamientoEditMapper.toDTO(ayuntamientoRepository.save(ayuntamiento));
     }
 
 

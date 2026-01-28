@@ -9,11 +9,14 @@ import com.vmr.cementerio.model.Rol;
 import com.vmr.cementerio.repository.CiudadanoRepository;
 import com.vmr.cementerio.enums.TipoRol;
 import com.vmr.cementerio.model.Ciudadano;
+import com.vmr.cementerio.mapper.CiudadanoEditMapper;
 import com.vmr.cementerio.mapper.CiudadanoMapper;
 import com.vmr.cementerio.dto.response.CiudadanoDTO;
+import com.vmr.cementerio.dto.response.CiudadanoEditDTO;
 import java.util.List;
 import com.vmr.cementerio.service.CiudadanoService;
 import com.vmr.cementerio.repository.UsuarioRepository;
+
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +27,7 @@ public class CiudadanoServiceImpl implements CiudadanoService{
     private final PasswordEncoder passwordEncoder;
     private final CiudadanoMapper ciudadanoMapper;
     private final UsuarioRepository usuarioRepository;
+    private final CiudadanoEditMapper ciudadanoEditMapper;
 
 
     public List<CiudadanoDTO> getAll(){
@@ -61,12 +65,12 @@ public class CiudadanoServiceImpl implements CiudadanoService{
         }
     }
 
-    public CiudadanoDTO update(Long id, CiudadanoDTO ciudadanoDTO){
+    public CiudadanoEditDTO update(Long id, CiudadanoEditDTO ciudadanoDTO){
         Ciudadano ciudadano = ciudadanoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Ciudadano no encontrado"));
 
-        ciudadano = ciudadanoMapper.toEntity(ciudadanoDTO);
-        return ciudadanoMapper.toDTO(ciudadanoRepository.save(ciudadano));
+        ciudadanoEditMapper.updateEntityFromDTO(ciudadanoDTO, ciudadano);
+        return ciudadanoEditMapper.toDTO(ciudadanoRepository.save(ciudadano));
     }
 
     public void delete(Long id){
