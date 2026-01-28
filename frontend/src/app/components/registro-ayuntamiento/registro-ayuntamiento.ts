@@ -18,6 +18,7 @@ export class RegistroAyuntamiento implements OnInit{
   // ayuntamiento!: Ayuntamiento;
   registroAyto!: FormGroup;
   @ViewChild("modalError") modalError!: ModalError;
+  verContrasena: boolean = false;
 
   constructor(private ayuntamientoService: AyuntamientoService, private router: Router) {}
 
@@ -60,5 +61,9 @@ export class RegistroAyuntamiento implements OnInit{
     }
 
   }
+
+  toggleContrasena() {
+    this.verContrasena = !this.verContrasena;
+  }  
 
 }

@@ -1,1 +1,46 @@
-<p>ayuntamiento works!</p>
+<app-cabecera></app-cabecera>
+
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row g-4 text-center">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm p-4">
+                    <div class="display-4 mb-3"><img src="paloma.png" alt="Icono" width="50"></div>
+                    <h3 class="h5 fw-bold">Busca otros cementerios</h3>
+                    <p class="text-muted">Usa nuestro buscador para ver cualquiera de los cementerios de la aplicacion.</p>
+                    <div class="mt-4">
+                        <button type="button" class="btn btn-primary-custom shadow-sm px-4 py-2 fw-bold" routerLink="/busqueda-cementerio">
+                            BUSCAR
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm p-4">
+                    <div class="display-4 mb-3"><img src="lapida.png" alt="Icono" width="50"></div>
+                    <h3 class="h5 fw-bold">Gestión Cementerio</h3>
+                    <p class="text-muted">Gestione sus cementerios, las zonas de los mismos, las tarifas de los servicios ...</p>
+                    <div class="mt-4">
+                        <button type="button" class="btn btn-primary-custom shadow-sm px-4 py-2 fw-bold">
+                            ENTRAR
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm p-4">
+                    <div class="display-4 mb-3"><img src="ramo-de-flores.png" alt="Icono" width="50"></div>
+                    <h3 class="h5 fw-bold">Servicio Nuevo</h3>
+                    <p class="text-muted">Define nuevos servicios que los usuarios pueden pedir para realizar en las parecelas.</p>
+                    <div class="mt-4">
+                        <button type="button" class="btn btn-primary-custom shadow-sm px-4 py-2 fw-bold" routerLink="/crear-tipo-servicio">
+                            DEFINIR
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<app-footer></app-footer>

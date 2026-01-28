@@ -7,6 +7,7 @@ import { Router, RouterLink } from '@angular/router';
 import { LoginService } from '../../services/login';
 import { ModalError } from '../modal-error/modal-error';
 import { ViewChild } from '@angular/core';
+import { AuthService } from '../../services/auth-service';
 
 @Component({
   selector: 'app-login',
@@ -16,15 +17,13 @@ import { ViewChild } from '@angular/core';
 })
 export class Login implements OnInit{
 
-  usuario!: UserLogin;
   loginForm!: FormGroup;
   @ViewChild("modalError") modalError!: ModalError;
   verContrasena: boolean = false;
 
-  constructor(private login: LoginService, private router: Router) {}
+  constructor(private login: LoginService, private router: Router, private auth: AuthService) {}
 
   ngOnInit(): void {
-    this.usuario = new UserLogin();
     this.loginForm = new FormGroup({
       email: new FormControl('' , [Validators.required, Validators.email]),
       contrasena: new FormControl('' , [Validators.required, Validators.minLength(8)])
@@ -33,22 +32,12 @@ export class Login implements OnInit{
 
   entrar() {
     if (this.loginForm.valid) {
-      this.usuario = this.loginForm.value;
-      
-      this.login.getTokenFromServer(this.usuario).subscribe({
+      this.login.logout();
+      this.login.getTokenFromServer(this.loginForm.value).subscribe({
         next: (respuesta) => {
           const token = respuesta.token;
-          console.log(token);
-          this.login.getUsuarioFromServer(token).subscribe({
-            next: (usuario) => {
-              console.log(usuario);
-              this.login.login(usuario, token);
-              this.router.navigate(['/home']);
-            },
-            error: (err) => {
-              console.error(err);
-            }
-          });
+          this.login.setToken(token);
+          this.guardarUsuario();
         },
         error: (err) => {
           this.modalError.abrirModal("Error", err.error, true);
@@ -56,6 +45,19 @@ export class Login implements OnInit{
         }
       });
     }
+  }
+
+  guardarUsuario(){
+    this.login.getUsuarioFromServer(this.auth.getToken() || '').subscribe({
+      next: (respuesta) => {
+        this.login.setUsuario(respuesta);
+        this.router.navigate(['/home']);
+      },
+      error: (err) => {
+        this.modalError.abrirModal("Error", err.error, true);
+        console.error(err);
+      }
+    });
   }
 
   toggleContrasena() {

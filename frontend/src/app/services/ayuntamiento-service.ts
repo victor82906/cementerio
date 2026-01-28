@@ -15,4 +15,12 @@ export class AyuntamientoService {
     return this.http.post(this.apiUrl, ayuntamiento);
   }
 
+  findById(id: number): Observable<any> {
+    return this.http.get(this.apiUrl + "/" + id);
+  }
+  
+  update(id: number, ayuntamiento: any): Observable<any> {
+    return this.http.put(this.apiUrl + "/" + id, ayuntamiento);
+  }
+
 }

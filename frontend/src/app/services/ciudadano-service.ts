@@ -14,5 +14,13 @@ export class CiudadanoService {
   registrarCiudadano(ciudadano: any): Observable<any> {
     return this.http.post(this.apiUrl, ciudadano);
   }
-  
+
+  findById(id: number): Observable<any> {
+    return this.http.get(this.apiUrl + "/" + id);
+  }
+
+  update(id: number, ciudadano: any): Observable<any> {
+    return this.http.put(this.apiUrl + "/" + id, ciudadano);
+  }
+
 }

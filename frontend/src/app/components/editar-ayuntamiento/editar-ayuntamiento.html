@@ -1,0 +1,93 @@
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <div class="p-5 rounded-3 border border-secondary shadow-lg bg-dark-custom position-relative">
+
+                <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
+                    <span class="btn btn-link text-white text-decoration-none" routerLink="/home">
+                        <i class="bi bi-arrow-left me-2"></i>Volver
+                    </span>
+
+                    <h2 class="text-white fw-bold mb-0 text-uppercase italic mx-auto">Mi Perfil</h2>
+
+                    <div class="profile-photo-container">
+                        <img [src]="fotoPerfil ? 'http://localhost:8081/uploads/' + fotoPerfil : 'http://localhost:8081/uploads/perfilDefault.png'"
+                            class="rounded-circle border border-secondary shadow-sm avatar-header" alt="Foto de perfil">
+                    </div>
+                </div>
+
+                <div class="d-flex gap-3 mb-5 justify-content-center">
+                    <button type="button" class="btn btn-outline-light btn-sm px-3" (click)="foto()">
+                        <i class="bi bi-camera me-2"></i>Cambiar Foto
+                    </button>
+                    <button type="button" class="btn btn-outline-light btn-sm px-3" (click)="contrasena()">
+                        <i class="bi bi-shield-lock me-2"></i>Cambiar Contraseña
+                    </button>
+                </div>
+
+                <form [formGroup]="editarForm" (ngSubmit)="actualizar()">
+                    <div class="row g-4 text-white">
+
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">CODIGO:</label>
+                            <input type="text" class="form-control bg-transparent text-secondary border-secondary op-9"
+                                formControlName="codigo" readonly>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">EMAIL:</label>
+                            <input type="email" class="form-control bg-transparent text-secondary border-secondary op-9"
+                                formControlName="email" readonly>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">NOMBRE:</label>
+                            <input type="text" class="form-control bg-transparent text-white border-secondary"
+                                formControlName="nombre">
+                            @if(editarForm.get("nombre")?.touched) {
+                            @if(editarForm.get("nombre")?.errors?.["required"]) {
+                            <span class="text-danger d-block mt-1 fw-bold small">Nombre obligatorio</span>
+                            }@else if (editarForm.get("nombre")?.errors?.["pattern"]){
+                            <span class="text-danger d-block mt-1 fw-bold small">Solo puede contener letras</span>
+                            }
+                            }
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">TELÉFONO:</label>
+                            <input type="text" class="form-control bg-transparent text-white border-secondary"
+                                formControlName="telefono">
+                            @if(editarForm.get("telefono")?.touched) {
+                            @if(editarForm.get("telefono")?.errors?.["required"]) {
+                            <span class="text-danger d-block mt-1 fw-bold small">Telefono obligatorio</span>
+                            }@else if(editarForm.get("telefono")?.errors?.["pattern"]) {
+                            <span class="text-danger d-block mt-1 fw-bold small">Telefono no valido</span>
+                            }
+                            }
+                        </div>
+                        
+                        <div class="col-md-12">
+                            <label class="form-label small fw-bold">DIRECCIÓN:</label>
+                            <input type="text" class="form-control bg-transparent text-white border-secondary"
+                                formControlName="direccion">
+                            @if(editarForm.get("direccion")?.touched &&
+                            editarForm.get("direccion")?.errors?.["maxlength"]) {
+                            <span class="text-danger d-block mt-1 fw-bold small">Direccion demasiado larga</span>
+                            }
+                        </div>
+
+                        <div class="mt-5 text-center">
+                            <button type="submit"
+                                class="btn btn-primary-custom px-5 py-2 fw-bold text-uppercase shadow-sm">
+                                Guardar Datos
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-modal-error #modalError></app-modal-error>

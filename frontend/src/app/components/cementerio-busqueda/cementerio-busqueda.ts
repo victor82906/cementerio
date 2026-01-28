@@ -5,10 +5,13 @@ import { OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef } from '@angular/core';
+import { AuthService } from '../../services/auth-service';
+import { Footer } from "../footer/footer";
+import { Cabecera } from "../cabecera/cabecera";
 
 @Component({
   selector: 'app-cementerio-busqueda',
-  imports: [FormsModule, CommonModule, RouterLink],
+  imports: [FormsModule, CommonModule, RouterLink, Footer, Cabecera],
   templateUrl: './cementerio-busqueda.html',
   styleUrl: './cementerio-busqueda.css',
 })
@@ -60,7 +63,7 @@ export class CementerioBusqueda implements OnInit{
   }
 ];
 
-  constructor(private route: ActivatedRoute, private cementerioService: CementerioService, private cdr: ChangeDetectorRef) {}
+  constructor(private auth: AuthService, private route: ActivatedRoute, private cementerioService: CementerioService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
       this.route.queryParams.subscribe(params => {

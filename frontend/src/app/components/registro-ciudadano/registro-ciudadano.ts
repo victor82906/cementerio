@@ -16,18 +16,19 @@ import { ViewChild } from '@angular/core';
 export class RegistroCiudadano implements OnInit{
   registroCiudadano!: FormGroup;
   @ViewChild("modalError") modalError!: ModalError;
+  verContrasena: boolean = false;
 
   constructor(private ciudadanoService: CiudadanoService, private router: Router) {}
 
   ngOnInit(): void {
     this.registroCiudadano = new FormGroup({
       nombre: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$')]),
-      apellidos: new FormControl('', [Validators.required]), //, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$')
+      apellidos: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$')]),
       email: new FormControl('', [Validators.required, Validators.email]),
       telefono: new FormControl('', [Validators.required, Validators.pattern('^[679][0-9]{8}$')]),
       direccion: new FormControl('', [Validators.maxLength(50)]),
       dni: new FormControl('', [Validators.required, Validaciones.dniValido]),
-      contrasena: new FormControl('', [Validators.required]), //, Validators.minLength(8)
+      contrasena: new FormControl('', [Validators.required, Validators.minLength(8)]),
       repetirContrasena: new FormControl('', [Validators.required])
     }, {
       validators: Validaciones.contrasenaIgual
@@ -54,4 +55,9 @@ export class RegistroCiudadano implements OnInit{
       this.registroCiudadano.markAllAsTouched();
     }
   }
+
+  toggleContrasena() {
+    this.verContrasena = !this.verContrasena;
+  }
+  
 }

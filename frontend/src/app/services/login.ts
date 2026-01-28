@@ -13,7 +13,7 @@ export class LoginService {
 
   constructor(private http: HttpClient) {}
 
-  getTokenFromServer(usuario: UserLogin): Observable<any> {
+  getTokenFromServer(usuario: any): Observable<any> {
     return this.http.post(this.urlToken, usuario);
   }
   
@@ -21,15 +21,18 @@ export class LoginService {
     const headers = { 'Authorization': `Bearer ${token}` };
     return this.http.get(this.urlUsuario, {headers});
   }
-
-  login(usuario: any, token: any) {
-    localStorage.setItem('usuario', JSON.stringify(usuario));
-    localStorage.setItem('auth_token', token);
-  }
-
+  
   logout(): void {
     localStorage.removeItem('auth_token');
     localStorage.removeItem('usuario');
+  }
+
+  setToken(token: string): void {
+    localStorage.setItem('auth_token', token);
+  }
+
+  setUsuario(usuario: any): void {
+    localStorage.setItem('usuario', JSON.stringify(usuario));
   }
 
 }

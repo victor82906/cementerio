@@ -1,12 +1,12 @@
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-10 col-lg-8">
-            <div class="p-5 rounded-3 border border-secondary shadow-lg" style="background-color: #0a192f;">
+            <div class="p-5 rounded-3 border border-secondary shadow-lg bg-dark-custom">
                 <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
                     <span class="btn btn-link text-white" routerLink="/home"><i class="bi bi-arrow-left me-2"></i>Volver al Inicio</span>
                 </div>
 
-                <h2 class="text-white fw-bold mb-4 text-uppercase italic text-center" style="letter-spacing: 1px;">LOGIN
+                <h2 class="text-white fw-bold mb-4 text-uppercase italic text-center">LOGIN
                 </h2>
 
                 <form [formGroup]="loginForm" (ngSubmit)="entrar()">
@@ -40,7 +40,7 @@
                         </div>
 
                         <div class="mt-5 text-center">
-                            <button type="submit" class="btn btn-outline-light px-5 py-2 fw-bold custom-hover-btn">
+                            <button type="submit" class="btn btn-primary-custom px-5 py-2 fw-bold text-uppercase shadow-sm">
                                 LOGIN
                             </button>
                         </div>
