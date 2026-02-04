@@ -1,0 +1,196 @@
+<app-cabecera></app-cabecera>
+
+<div class="container py-5">
+
+    @if (cargando) {
+        <app-cargando></app-cargando>
+    }@else {
+
+    <div class="p-4 rounded-3 border border-secondary bg-dark-custom shadow-lg mb-5 animate-fade-in">
+        <h2 class="text-white fw-bold text-uppercase mb-4">Añadir nueva zona</h2>
+
+        <form [formGroup]="formZona" (ngSubmit)="guardarZona()" class="mt-4">
+            <div class="row g-4 align-items-start">
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="form-label text-secondary small fw-bold">TIPO DE ZONA:</label>
+                        <select formControlName="tipoZona"
+                            class="form-select bg-transparent text-white border-secondary h-input">
+                            <option value="" disabled selected>Selecciona tipo...</option>
+                            @for (tipo of tipoZonas; track tipo.id) {
+                            <option class="bg-dark-custom text-white" [value]="tipo.id">{{ tipo.nombre }}</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="form-label text-secondary small fw-bold">PRECIO (€):</label>
+                        <input type="number" formControlName="precio" min="1"
+                            class="form-control bg-transparent text-white border-secondary h-input text-center">
+
+                        <div class="error-container">
+                            @if ((formZona.get("precio")?.touched && formZona.get("precio")?.errors?.["min"]) ||
+                            (formZona.get("precio")?.touched && formZona.get("precio")?.errors?.["required"])) {
+                            <span class="text-danger fw-bold small">Inserte precio</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-1">
+                    <div class="form-group">
+                        <label class="form-label text-secondary small fw-bold"
+                            title="Capacidad por parcela">CAPAC.:</label>
+                        <input type="number" formControlName="capacidadParcelas" min="1"
+                            class="form-control bg-transparent text-white border-secondary h-input text-center">
+                        <div class="error-container">
+                            @if ((formZona.get("capacidadParcelas")?.touched &&
+                            formZona.get("capacidadParcelas")?.errors?.["min"]) ||
+                            (formZona.get("capacidadParcelas")?.touched &&
+                            formZona.get("capacidadParcelas")?.errors?.["required"])) {
+                            <span class="text-danger fw-bold small">Mínimo 1</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="form-label text-secondary small fw-bold">COORDENADAS:</label>
+                        <input type="text" formControlName="coordenadas"
+                            class="form-control bg-transparent text-white border-secondary h-input">
+
+                        <div class="error-container">
+                            @if (formZona.get("coordenadas")?.touched &&
+                            formZona.get("coordenadas")?.errors?.["required"]) {
+                            <span class="text-danger fw-bold small">Coordenadas obligatorias</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-1">
+                    <div class="form-group">
+                        <label class="form-label text-secondary small fw-bold">FILAS:</label>
+                        <input type="number" formControlName="filas" min="1"
+                            class="form-control bg-transparent text-white border-secondary h-input text-center">
+
+                        <div class="error-container">
+                            @if ((formZona.get("filas")?.touched && formZona.get("filas")?.errors?.["min"]) ||
+                            (formZona.get("filas")?.touched && formZona.get("filas")?.errors?.["required"])) {
+                            <span class="text-danger fw-bold small">Mínimo 1</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-1">
+                    <div class="form-group">
+                        <label class="form-label text-secondary small fw-bold">COLUMNAS:</label>
+                        <input type="number" formControlName="columnas" min="1"
+                            class="form-control bg-transparent text-white border-secondary h-input text-center">
+
+                        <div class="error-container">
+                            @if ((formZona.get("columnas")?.touched && formZona.get("columnas")?.errors?.["min"]) ||
+                            (formZona.get("columnas")?.touched && formZona.get("columnas")?.errors?.["required"])) {
+                            <span class="text-danger fw-bold small">Mínimo 1</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2 ms-auto">
+                    <div class="form-group">
+                        <label class="form-label d-none d-md-block invisible">Boton</label>
+                        <button type="submit"
+                            class="btn btn-primary-custom w-100 py-2 fw-bold h-input d-flex align-items-center justify-content-center">
+                            <i class="bi bi-plus-circle me-2"></i>AÑADIR
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+    <h3 class="text-white fw-bold text-uppercase italic mb-4 animate-fade-in">Zonas Configuradas</h3>
+
+    <div class="row g-3 animate-fade-in">
+        @for (zona of zonas; track zona.id) {
+        <div class="col-12">
+            <div class="card border-secondary bg-dark-custom text-white card-horizontal p-3">
+                <div class="row align-items-center">
+
+                    <div class="col-md-2">
+                        <h5 class="fw-bold text-primary-custom mb-0 text-truncate" [title]="zona.tipoZona?.nombre">
+                            {{ zona.tipoZona?.nombre || 'Zona ' + zona.id }}
+                        </h5>
+                    </div>
+
+                    <div class="col-md-5">
+                        <div class="d-flex align-items-center text-secondary small italic">
+                            <span class="me-3 text-nowrap">
+                                <i class="bi bi-grid-3x3 me-1"></i>{{ zona.filas }}x{{ zona.columnas }}
+                            </span>
+                            <span class="text-truncate">
+                                <i class="bi bi-geo-alt me-1"></i>{{ zona.coordenadas }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="d-flex gap-2">
+
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-text bg-transparent text-secondary border-secondary">
+                                    <i class="bi bi-people-fill"></i>
+                                </span>
+                                <input type="number" #inputCapacidad [value]="zona.capacidadParcelas" min="1"
+                                    class="form-control bg-transparent text-white border-secondary text-center"
+                                    placeholder="Cap." (input)="actualizarCapacidad(zona, inputCapacidad.value)">
+                            </div>
+
+                            <div class="input-group input-group-sm">
+                                <input type="number" #inputPrecio [value]="zona.precio"
+                                    class="form-control bg-transparent text-white border-secondary text-end"
+                                    placeholder="0.00" (input)="actualizarPrecio(zona, inputPrecio.value)">
+                                <span class="input-group-text bg-transparent text-white border-secondary">€</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 text-end">
+                        <div class="d-flex justify-content-end gap-2">
+                            @if (zona.modificado) {
+                            <button (click)="guardarCambioZona(zona)" class="btn btn-success btn-sm fw-bold"
+                                title="Guardar">
+                                <i class="bi bi-check-lg"></i> GUARDAR
+                            </button>
+                            }
+                            <button (click)="borrarZona(zona.id)" class="btn btn-outline-danger btn-sm" title="Borrar">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        } @empty {
+        <div class="col-12 text-center py-5 border border-secondary border-dashed rounded">
+            <p class="text-secondary mb-0">No hay zonas configuradas.</p>
+        </div>
+        }
+    </div>
+
+    }
+</div>
+
+<app-footer></app-footer>
+
+<app-modal-error></app-modal-error>
+
+<app-modal-confirmar #modalConfirmar (accionConfirmada)="confirmarBorrado()"></app-modal-confirmar>

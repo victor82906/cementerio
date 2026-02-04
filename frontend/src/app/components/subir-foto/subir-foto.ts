@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-subir-foto',
-  imports: [ModalError, RouterLink],
+  imports: [ModalError, RouterLink,],
   templateUrl: './subir-foto.html',
   styleUrl: './subir-foto.css',
 })

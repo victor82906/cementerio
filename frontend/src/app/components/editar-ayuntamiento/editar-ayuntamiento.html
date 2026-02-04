@@ -1,6 +1,9 @@
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-10 col-lg-8">
+            @if(cargando){
+                <app-cargando></app-cargando>
+            }@else{
             <div class="p-5 rounded-3 border border-secondary shadow-lg bg-dark-custom position-relative">
 
                 <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
@@ -86,6 +89,7 @@
                 </form>
 
             </div>
+            }
         </div>
     </div>
 </div>

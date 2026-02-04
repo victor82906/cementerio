@@ -1,0 +1,253 @@
+<app-cabecera></app-cabecera>
+
+<div class="container py-5 page-container">
+    @if(cargando){
+    <app-cargando></app-cargando>
+    } @else {
+
+    <div class="p-4 rounded-3 border border-secondary bg-dark-custom shadow-lg mb-5 animate-fade-in">
+
+        <div class="row align-items-center border-bottom border-secondary pb-4 mb-4">
+            <div class="col-md-6">
+                <h2 class="text-white fw-bold text-uppercase mb-1">Parcela Nº {{ parcela.numero }}</h2>
+                <p class="text-secondary mb-0 small">
+                    {{ zona.tipoZona.nombre }} - {{ zona.coordenadas }}
+                </p>
+                <p class="text-secondary mb-0 small">
+                    <i class="bi bi-geo-alt me-1"></i>{{ cementerio.direccion }}
+                </p>
+            </div>
+            <div class="col-md-6 text-md-end mt-3 mt-md-0">
+                <div class="d-flex justify-content-md-end align-items-center gap-4">
+                    <div class="text-end border-secondary ps-3">
+                        <small class="text-secondary d-block fw-bold small">CAPACIDAD</small>
+                        <div class="text-white fw-bold d-flex align-items-center justify-content-end">
+                            <i class="bi bi-people-fill text-primary-custom me-2"></i>
+                            {{ zona.capacidadParcelas }} Difuntos
+                        </div>
+                    </div>
+                    <div class="d-flex border-start align-items-center">
+                        @if(parcela.ocupada) {
+                        <span class="badge bg-danger bg-opacity-10 text-danger border border-danger px-3 py-2 m-3">
+                            OCUPADA
+                        </span>
+                        } @else {
+                        <span class="badge bg-success bg-opacity-10 text-success border border-success px-3 py-2 m-3">
+                            DISPONIBLE
+                        </span>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <h2 class="text-white fw-bold text-uppercase mb-4">Comprar Servicio</h2>
+
+        <div class="row g-4 align-items-start">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="form-label text-secondary small fw-bold">SERVICIO:</label>
+                    <select [(ngModel)]="tarifaSeleccionada"
+                        class="form-select bg-transparent text-white border-secondary h-input">
+                        <option [ngValue]="null" disabled selected>Selecciona un servicio...</option>
+                        @for (tarifa of tarifas; track tarifa.id) {
+                        <option [ngValue]="tarifa" class="bg-dark-custom text-white">
+                            {{ tarifa.tipoServicio.nombre }}
+                        </option>
+                        }
+                    </select>
+
+                    <div class="mt-2">
+                        @if (tarifaSeleccionada) {
+                        <small class="text-secondary fst-italic animate-fade-in">
+                            <i class="bi bi-info-circle me-1 text-primary-custom"></i>
+                            {{ tarifaSeleccionada.tipoServicio.descripcion }}
+                        </small>
+                        }
+                        <!-- @if(tarifaSeleccionada.invalid && tarifaSeleccionada.touched) {
+                                <small class="text-danger fw-bold d-block">Seleccione una tarifa</small>
+                            } -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="form-label text-secondary small fw-bold">PRECIO TOTAL (€):</label>
+                    <div
+                        class="form-control bg-transparent text-white border-secondary h-input d-flex align-items-center">
+                        {{ tarifaSeleccionada?.precio }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="form-label d-none d-md-block invisible">Espaciador</label>
+                    <button (click)="pagarServicio()"
+                        class="btn btn-primary-custom w-100 py-2 fw-bold h-input d-flex align-items-center justify-content-center">
+                        <i class="bi bi-credit-card me-2"></i>PAGAR
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        @if(esInhumacion()){
+        <div
+            class="alert alert-warning bg-opacity-10 border-warning text-warning mt-4 animate-fade-in d-flex align-items-center">
+            <i class="bi bi-exclamation-triangle-fill me-3 fs-4"></i>
+            <p class="mb-0 small">Para realizar una inhumación, por favor seleccione el difunto específico en la lista
+                inferior y pulse el botón "Inhumar".</p>
+        </div>
+        }
+
+        @if(esExhumacion()) {
+        <div class="mt-4 pt-4 border-top border-secondary animate-fade-in">
+            <h6 class="text-white fw-bold mb-3"><i class="bi bi-person-lines-fill me-2 text-primary-custom"></i>Datos
+                del Difunto</h6>
+
+            <form [formGroup]="registroDifunto">
+                <div class="row g-3 text-white">
+                    <div class="col-md-6">
+                        <label for="nombre" class="form-label small fw-bold">NOMBRE:</label>
+                        <input type="text" class="form-control bg-transparent text-white border-secondary" id="nombre"
+                            formControlName="nombre">
+                        @if(registroDifunto.get("nombre")?.touched) {
+                        @if(registroDifunto.get("nombre")?.errors?.["required"]) {
+                        <span class="text-danger d-block mt-1 fw-bold small">Nombre obligatorio</span>
+                        }@else if (registroDifunto.get("nombre")?.errors?.["pattern"]){
+                        <span class="text-danger d-block mt-1 fw-bold small">Solo puede contener letras</span>
+                        }
+                        }
+                    </div>
+                    <div class="col-md-6">
+                        <label for="apellidos" class="form-label small fw-bold">APELLIDOS:</label>
+                        <input type="text" class="form-control bg-transparent text-white border-secondary"
+                            id="apellidos" formControlName="apellidos">
+                        @if(registroDifunto.get("apellidos")?.touched) {
+                        @if(registroDifunto.get("apellidos")?.errors?.["required"]) {
+                        <span class="text-danger d-block mt-1 fw-bold small">Apellidos obligatorios</span>
+                        }@else if (registroDifunto.get("apellidos")?.errors?.["pattern"]){
+                        <span class="text-danger d-block mt-1 fw-bold small">Solo puede contener letras</span>
+                        }
+                        }
+                    </div>
+                    <div class="col-md-4">
+                        <label for="dni" class="form-label small fw-bold">DNI:</label>
+                        <input type="text" class="form-control bg-transparent text-white border-secondary" id="dni"
+                            formControlName="dni">
+                        @if(registroDifunto.get("dni")?.touched) {
+                        @if(registroDifunto.get("dni")?.errors?.["required"]) {
+                        <span class="text-danger d-block mt-1 fw-bold small">DNI obligatorio</span>
+                        }@else if(registroDifunto.get("dni")?.errors?.["error"]) {
+                        <span class="text-danger d-block mt-1 fw-bold small">DNI no valido</span>
+                        }
+                        }
+                    </div>
+                    <div class="col-md-4">
+                        <label for="fechaNacimiento" class="form-label small fw-bold">F. NACIMIENTO:</label>
+                        <input type="date" class="form-control bg-transparent text-white border-secondary"
+                            id="fechaNacimiento" formControlName="fechaNacimiento">
+                        @if(registroDifunto.get("fechaNacimiento")?.touched) {
+                        @if(registroDifunto.get("fechaNacimiento")?.errors?.["required"]) {
+                        <span class="text-danger d-block mt-1 fw-bold small">Fecha de nacimiento obligatoria</span>
+                        }@else if(registroDifunto.get("fechaNacimiento")?.errors?.["error"]){
+                        <span class="text-danger d-block mt-1 fw-bold small">Fecha no valida</span>
+                        }
+                        }
+                    </div>
+                    <div class="col-md-4">
+                        <label for="fechaFallecimiento" class="form-label small fw-bold">F. FALLECIMIENTO:</label>
+                        <input type="date" class="form-control bg-transparent text-white border-secondary"
+                            id="fechaFallecimiento" formControlName="fechaFallecimiento">
+                        @if(registroDifunto.get("fechaFallecimiento")?.touched) {
+                        @if(registroDifunto.get("fechaFallecimiento")?.errors?.["required"]) {
+                        <span class="text-danger d-block mt-1 fw-bold small">Fecha de fallecimiento obligatoria</span>
+                        }@else if(registroDifunto.get("fechaFallecimiento")?.errors?.["error"]){
+                        <span class="text-danger d-block mt-1 fw-bold small">Fecha no valida</span>
+                        }@else if(registroDifunto.errors?.["fallecimiento"]){
+                        <span class="text-danger d-block mt-1 fw-bold small">La fecha de fallecimiento es posterior a la
+                            de nacimiento</span>
+                        }
+                        }
+                    </div>
+                    <div class="col-12">
+                        <label for="biografia" class="form-label small fw-bold">BIOGRAFÍA:</label>
+                        <textarea class="form-control bg-transparent text-white border-secondary" rows="2"
+                            id="biografia" formControlName="biografia"></textarea>
+                        @if(registroDifunto.get("biografia")?.touched &&
+                        registroDifunto.get("biografia")?.errors?.["maxlength"]) {
+                        <span class="text-danger d-block mt-1 fw-bold small">Biografia muy larga</span>
+                        }
+                    </div>
+                </div>
+            </form>
+        </div>
+        }
+
+    </div>
+
+    <h3 class="text-custom fw-bold text-uppercase fst-italic mb-4 animate-fade-in delay-1">Difuntos de la Parcela</h3>
+
+    <div class="row g-3">
+        @for (difunto of difuntos; track difunto.id) {
+        <div class="col-12">
+            <div class="card border-secondary bg-dark-custom text-white card-horizontal p-3 shadow-sm">
+                <div class="row align-items-center">
+
+                    <div class="col-md-4 border-end border-secondary">
+                        <div class="d-flex align-items-center">
+                            <div>
+                                <h5 class="fw-bold text-primary-custom mb-0">{{ difunto.nombre }} {{ difunto.apellidos }}</h5>
+                                <small class="text-secondary">{{ difunto.dni }}</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-5 ps-md-4">
+                        <div class="d-flex gap-4 mb-1">
+                            <div>
+                                <small class="text-secondary d-block text-xs fw-bold">NACIMIENTO</small>
+                                <span class="text-white small">{{ difunto.fechaNacimiento | date:'dd/MM/yyyy' }}</span>
+                            </div>
+                            <div>
+                                <small class="text-secondary d-block text-xs fw-bold">FALLECIMIENTO</small>
+                                <span class="text-white small">{{ difunto.fechaFallecimiento | date:'dd/MM/yyyy'
+                                    }}</span>
+                            </div>
+                        </div>
+                        <p class="text-secondary small fst-italic mb-0 text-truncate">
+                            {{ difunto.biografia }}
+                        </p>
+                    </div>
+
+                    <div class="col-md-3 mt-3 mt-md-0">
+                        <div class="d-flex flex-column justify-content-between h-100 align-items-md-end gap-2">
+                            <button (click)="verCementerio()" class="btn btn-outline-light btn-sm"
+                                title="Ver Cementerio">
+                                <i class="bi bi-eye"></i> VER CEMENTERIO
+                            </button>
+                            <button (click)="inhumarDifunto(difunto.id)" class="btn btn-outline-danger btn-sm fw-bold"
+                                title="Inhumar / Borrar">
+                                <i class="bi bi-trash-fill me-1"></i> INHUMAR
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        } @empty {
+        <div class="col-12 text-center py-5 border border-secondary border-dashed rounded">
+            <p class="text-secondary mb-0">No hay difuntos registrados en esta parcela actualmente.</p>
+        </div>
+        }
+
+    </div>
+
+    }
+</div>
+
+<app-modal-confirmar #modalConfirmar (accionConfirmada)="confirmarBorrado()"></app-modal-confirmar>
+<app-modal-error #modalError></app-modal-error>
+<app-footer></app-footer>

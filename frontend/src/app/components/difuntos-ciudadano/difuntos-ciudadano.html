@@ -1,0 +1,63 @@
+<app-cabecera></app-cabecera>
+
+
+<div class="container py-5 page-container">
+    @if(cargando){
+    <app-cargando></app-cargando>
+    } @else {
+
+    <h3 class="text-custom fw-bold text-uppercase fst-italic mb-4 animate-fade-in delay-1">MIS DIFUNTOS</h3>
+    <div class="row g-3">
+        @for (difunto of difuntos; track difunto.id) {
+        <div class="col-12">
+            <div class="card border-secondary bg-dark-custom text-white card-horizontal p-3 shadow-sm">
+                <div class="row align-items-center">
+
+                    <div class="col-md-4 border-end border-secondary">
+                        <div class="d-flex align-items-center">
+                            <div>
+                                <h5 class="fw-bold text-primary-custom mb-0">{{ difunto.nombre }} {{ difunto.apellidos
+                                    }}</h5>
+                                <small class="text-secondary">{{ difunto.dni }}</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-5 ps-md-4">
+                        <div class="d-flex gap-4 mb-1">
+                            <div>
+                                <small class="text-secondary d-block text-xs fw-bold">NACIMIENTO</small>
+                                <span class="text-white small">{{ difunto.fechaNacimiento | date:'dd/MM/yyyy' }}</span>
+                            </div>
+                            <div>
+                                <small class="text-secondary d-block text-xs fw-bold">FALLECIMIENTO</small>
+                                <span class="text-white small">{{ difunto.fechaFallecimiento | date:'dd/MM/yyyy'
+                                    }}</span>
+                            </div>
+                        </div>
+                        <p class="text-secondary small fst-italic mb-0 text-truncate">
+                            {{ difunto.biografia }}
+                        </p>
+                    </div>
+
+                    <div class="col-md-3 mt-3 mt-md-0">
+                        <div class="d-flex flex-column justify-content-between h-100 align-items-md-end gap-2">
+                            <button (click)="gestionarParcela(difunto.parcela.id)" class="btn btn-primary-custom shadow-sm px-4 py-2 fw-bold"
+                                title="Ver Cementerio">
+                                GESTIONAR
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        } @empty {
+        <div class="col-12 text-center py-5 border border-secondary border-dashed rounded">
+            <p class="text-secondary mb-0">No hay difuntos registrados a su nombre.</p>
+        </div>
+        }
+    </div>
+    }
+</div>
+
+<app-footer></app-footer>

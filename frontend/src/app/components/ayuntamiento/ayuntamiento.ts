@@ -14,4 +14,12 @@ export class Ayuntamiento {
 
   constructor(private router: Router, private authService: AuthService){}
 
+  cementerios(){
+    this.router.navigate(['/cementerios-ayuntamiento'], { queryParams: { idAyuntamiento: this.authService.getId() } });
+  }
+
+  servicios(){
+    this.router.navigate(['/servicios-ayuntamiento'], { queryParams: { idAyuntamiento: this.authService.getId() } });
+  }
+
 }

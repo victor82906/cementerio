@@ -1,0 +1,89 @@
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <div class="p-5 rounded-3 border border-secondary shadow-lg bg-dark-custom">
+
+                <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
+                    <span class="btn btn-link text-white text-decoration-none" routerLink="/home">
+                        <i class="bi bi-arrow-left me-2"></i>Volver al Inicio
+                    </span>
+                </div>
+
+                <h2 class="text-white fw-bold mb-4 text-uppercase italic text-center">
+                    Registro de Cementerio
+                </h2>
+
+                <form [formGroup]="cementerioForm" (ngSubmit)="registrar()">
+                    <div class="row g-4 text-white">
+
+                        <div class="col-6">
+                            <label for="nombre" class="form-label small fw-bold">NOMBRE DEL CEMENTERIO:</label>
+                            <input type="text" class="form-control bg-transparent text-white border-secondary"
+                                id="nombre" formControlName="nombre">
+
+                            @if(cementerioForm.get("nombre")?.touched &&
+                            cementerioForm.get("nombre")?.errors?.["required"]) {
+                            <span class="text-danger d-block mt-1 fw-bold small">El nombre es obligatorio</span>
+                            }
+                        </div>
+
+                        <div class="col-6">
+                            <label for="tiempoExhumacion" class="form-label small fw-bold">TIEMPO DE EXHUMACIÓN
+                                (AÑOS):</label>
+                            <input type="number" class="form-control bg-transparent text-white border-secondary"
+                                id="tiempoExhumacion" formControlName="tiempoExhumacion" min="1">
+
+                            @if(cementerioForm.get("tiempoExhumacion")?.touched) {
+                            @if(cementerioForm.get("tiempoExhumacion")?.errors?.["required"]) {
+                            <span class="text-danger d-block mt-1 fw-bold small">El tiempo es obligatorio</span>
+                            } @else if(cementerioForm.get("tiempoExhumacion")?.errors?.["min"]) {
+                            <span class="text-danger d-block mt-1 fw-bold small">El tiempo mínimo es 1 año</span>
+                            }
+                            }
+                        </div>
+
+                        <div class="col-12">
+                            <label for="direccion" class="form-label small fw-bold">DIRECCIÓN COMPLETA:</label>
+                            <input type="text" class="form-control bg-transparent text-white border-secondary"
+                                id="direccion" formControlName="direccion">
+
+                            @if(cementerioForm.get("direccion")?.touched) {
+                            @if(cementerioForm.get("direccion")?.errors?.["required"]){
+                            <span class="text-danger d-block mt-1 fw-bold small">La dirección es obligatoria</span>
+                            }@else if(cementerioForm.get("direccion")?.errors?.["maxLength"]) {
+                            <span class="text-danger d-block mt-1 fw-bold small">La dirección es muy larga</span>
+                            }
+                            }
+                        </div>
+
+                        <div class="col-12">
+                            <label for="foto" class="form-label small fw-bold">MAPA DEL CEMENTERIO:</label>
+                            <input type="file"
+                                class="form-control bg-transparent text-white border-secondary custom-file-input"
+                                id="foto" accept="image/*" (change)="previsualizarFoto($event)">
+                            <span class="text-secondary small mt-2 d-block">Formatos permitidos: JPG, PNG. Máx
+                                2MB.</span>
+
+                            @if (imgPreview) {
+                            <div class="mt-3 border border-secondary rounded overflow-hidden shadow-sm bg-dark">
+                                <img [src]="imgPreview" class="img-fluid w-100 d-block" alt="Vista previa del mapa">
+                            </div>
+                            }
+                        </div>
+
+                        <div class="mt-5 text-center">
+                            <button type="submit"
+                                class="btn btn-primary-custom px-5 py-2 fw-bold text-uppercase shadow-sm">
+                                REGISTRAR CEMENTERIO
+                            </button>
+                        </div>
+
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-modal-error #modalError></app-modal-error>

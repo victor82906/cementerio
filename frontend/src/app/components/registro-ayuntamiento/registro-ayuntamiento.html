@@ -7,7 +7,6 @@
         <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
           <span class="btn btn-link text-white" routerLink="/home"><i class="bi bi-arrow-left me-2"></i>Volver al
             Inicio</span>
-          <span class="btn btn-link text-white" routerLink="/registro-ciudadano">Ir a Registro Ciudadano</span>
         </div>
 
         <h2 class="text-white fw-bold mb-4 text-uppercase italic">Registro de Ayuntamiento
@@ -78,8 +77,6 @@
 
               <div class="mb-3">
                 <label for="contrasena" class="form-label small fw-bold">CONTRASEÑA:</label>
-                <!-- <input type="password" class="form-control bg-transparent text-white border-secondary" id="contrasena"
-                  formControlName="contrasena"> -->
                 <div class="input-group">
                   <input [type]="verContrasena ? 'text' : 'password'"
                     class="form-control bg-transparent text-white border-secondary border-end-0" id="contrasena"
@@ -92,7 +89,7 @@
                 @if(registroAyto.get("contrasena")?.touched) {
                 @if(registroAyto.get("contrasena")?.errors?.["required"]) {
                 <span class="text-danger d-block mt-1 fw-bold small">Contraseña obligatoria</span>
-                }@else if(registroAyto.get("contrasena")?.errors?.["minlength"]) {
+                } @else if(registroAyto.get("contrasena")?.errors?.["minlength"]) {
                 <span class="text-danger d-block mt-1 fw-bold small">Debe tener 8 o más caracteres</span>
                 }
                 }
@@ -100,13 +97,11 @@
 
               <div class="mb-3">
                 <label for="repetirContrasena" class="form-label small fw-bold">REPETIR CONTRASEÑA:</label>
-                <!-- <input type="password" class="form-control bg-transparent text-white border-secondary"
-                  id="repetirContrasena" formControlName="repetirContrasena"> -->
                 <div class="input-group">
                   <input [type]="verContrasena ? 'text' : 'password'"
-                    class="form-control bg-transparent text-white border-secondary border-end-0" id="contrasena"
-                    formControlName="contrasena">
-                  <button class="btn btn-outline-secondary border-secondary border-start-0" type="button"
+                    class="form-control bg-transparent text-white border-secondary border-end-0" id="repetirContrasena"
+                    formControlName="repetirContrasena"> <button
+                    class="btn btn-outline-secondary border-secondary border-start-0" type="button"
                     (click)="toggleContrasena()">
                     <i class="bi" [ngClass]="verContrasena ? 'bi-eye-slash' : 'bi-eye'"></i>
                   </button>

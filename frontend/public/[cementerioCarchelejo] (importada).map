@@ -1,0 +1,12 @@
+<img src="[cementerioCarchelejo] (importada)" width="535" height="273" border="0" usemap="#map" />
+
+<map name="map">
+<!-- #$-:Image map file created by GIMP Image Map plug-in -->
+<!-- #$-:GIMP Image Map plug-in by Maurits Rijk -->
+<!-- #$-:Please do not edit lines starting with "#$" -->
+<!-- #$VERSION:2.3 -->
+<!-- #$AUTHOR:molin -->
+<area shape="poly" coords="48,199,41,259,99,261,106,205" target="Cripta1"  nohref="nohref" />
+<area shape="poly" coords="8,6,17,60,51,72,75,69,70,37,123,31,117,4,47,4" target="Nicho1"  nohref="nohref" />
+<area shape="poly" coords="358,129,358,193,511,191,512,109,496,110,496,129" target="Nicho2"  nohref="nohref" />
+</map>

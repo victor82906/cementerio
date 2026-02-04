@@ -17,7 +17,7 @@ export class RegistroAyuntamiento implements OnInit{
 
   // ayuntamiento!: Ayuntamiento;
   registroAyto!: FormGroup;
-  @ViewChild("modalError") modalError!: ModalError;
+  @ViewChild(ModalError) modalError!: ModalError;
   verContrasena: boolean = false;
 
   constructor(private ayuntamientoService: AyuntamientoService, private router: Router) {}

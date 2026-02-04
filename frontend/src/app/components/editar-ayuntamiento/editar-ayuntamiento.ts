@@ -7,10 +7,12 @@ import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ModalError } from "../modal-error/modal-error";
 import { ViewChild } from '@angular/core';
+import { Cargando } from '../cargando/cargando';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-editar-ayuntamiento',
-  imports: [ReactiveFormsModule, CommonModule, RouterLink, ModalError],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink, ModalError, Cargando],
   templateUrl: './editar-ayuntamiento.html',
   styleUrl: './editar-ayuntamiento.css',
 })
@@ -20,8 +22,9 @@ export class EditarAyuntamiento {
   id: number = 0;
   @ViewChild("modalError") modalError!: ModalError;
   fotoPerfil: string = "";
+  cargando: boolean = false;
 
-  constructor(private ayuntamientoService: AyuntamientoService, private authService: AuthService, private route: ActivatedRoute, private router: Router) {}
+  constructor(private ayuntamientoService: AyuntamientoService, private authService: AuthService, private route: ActivatedRoute, private router: Router, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -40,14 +43,18 @@ export class EditarAyuntamiento {
   }
 
   cargarAyuntamiento(){
+    this.cargando = true;
     this.ayuntamientoService.findById(this.id).subscribe({
       next: (response) => {
         this.editarForm.patchValue(response);
         this.fotoPerfil = response.foto;
+        this.cargando = false;
+        this.cdr.markForCheck();
         console.log(response);
       },
       error: (err) => {
         console.error(err);
+        this.cargando = false;
       }
     });
   }

@@ -40,4 +40,12 @@ export class Validaciones {
         return contrasena === repetirContrasena ? null : { contrasena: "Las contraseñas no coinciden" };
     }
 
+    public static fallecimientoDespuesNacimiento(control:AbstractControl): ValidationErrors | null {
+        const fechaNacimiento = new Date(control.get('fechaNacimiento')?.value);
+        const fechaFallecimiento = new Date(control.get('fechaFallecimiento')?.value);
+        const error = fechaFallecimiento < fechaNacimiento;
+        return error ? { fallecimiento: "La fecha de fallecimiento debe ser posterior a la fecha de nacimiento" } : null;
+    }
+
+
 }

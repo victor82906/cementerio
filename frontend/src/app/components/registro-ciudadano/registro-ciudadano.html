@@ -5,9 +5,8 @@
             <div class="p-5 rounded-3 border border-secondary shadow-lg bg-dark-custom">
 
                 <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
-                    <span class="btn btn-link text-white" routerLink="/home"><i class="bi bi-arrow-left me-2"></i>Volver al Inicio</span>
-                    <span class="btn btn-link text-white" routerLink="/registro-ayuntamiento">Ir a Registro
-                        Ayuntamiento</span>
+                    <span class="btn btn-link text-white" routerLink="/home"><i class="bi bi-arrow-left me-2"></i>Volver
+                        al Inicio</span>
                 </div>
 
                 <h2 class="text-white fw-bold mb-4 text-uppercase italic">Registro de
@@ -37,9 +36,11 @@
                                     id="apellidos" formControlName="apellidos">
                                 @if(registroCiudadano.get("apellidos")?.touched) {
                                 @if(registroCiudadano.get("apellidos")?.errors?.["required"]) {
-                                <span class="text-danger d-block mt-1 fw-bold small">Los apellidos son obligatorios</span>
+                                <span class="text-danger d-block mt-1 fw-bold small">Los apellidos son
+                                    obligatorios</span>
                                 }@else if(registroCiudadano.get("apellidos")?.errors?.["pattern"]) {
-                                <span class="text-danger d-block mt-1 fw-bold small">Los apellidos solo contienen letras</span>
+                                <span class="text-danger d-block mt-1 fw-bold small">Los apellidos solo contienen
+                                    letras</span>
                                 }
                                 }
                             </div>
@@ -99,21 +100,19 @@
 
                             <div class="mb-3">
                                 <label for="contrasena" class="form-label small fw-bold">CONTRASEÑA:</label>
-                                <!-- <input type="password" class="form-control bg-transparent text-white border-secondary"
-                                    id="contrasena" formControlName="contrasena"> -->
                                 <div class="input-group">
                                     <input [type]="verContrasena ? 'text' : 'password'"
                                         class="form-control bg-transparent text-white border-secondary border-end-0"
                                         id="contrasena" formControlName="contrasena">
-                                    <button class="btn btn-outline-secondary border-secondary border-start-0" type="button"
-                                        (click)="toggleContrasena()">
+                                    <button class="btn btn-outline-secondary border-secondary border-start-0"
+                                        type="button" (click)="toggleContrasena()">
                                         <i class="bi" [ngClass]="verContrasena ? 'bi-eye-slash' : 'bi-eye'"></i>
                                     </button>
                                 </div>
                                 @if(registroCiudadano.get("contrasena")?.touched) {
                                 @if(registroCiudadano.get("contrasena")?.errors?.["required"]) {
                                 <span class="text-danger d-block mt-1 fw-bold small">Contraseña obligatoria</span>
-                                }@else if(registroCiudadano.get("contrasena")?.errors?.["minlength"]) {
+                                } @else if(registroCiudadano.get("contrasena")?.errors?.["minlength"]) {
                                 <span class="text-danger d-block mt-1 fw-bold small">Debe tener 8 o más
                                     caracteres</span>
                                 }
@@ -123,13 +122,11 @@
                             <div class="mb-3">
                                 <label for="repetirContrasena" class="form-label small fw-bold">REPETIR
                                     CONTRASEÑA:</label>
-                                <!-- <input type="password" class="form-control bg-transparent text-white border-secondary"
-                                    id="repetirContrasena" formControlName="repetirContrasena"> -->
                                 <div class="input-group">
                                     <input [type]="verContrasena ? 'text' : 'password'"
                                         class="form-control bg-transparent text-white border-secondary border-end-0"
-                                        id="contrasena" formControlName="contrasena">
-                                    <button class="btn btn-outline-secondary border-secondary border-start-0" type="button"
+                                        id="repetirContrasena" formControlName="repetirContrasena"> <button
+                                        class="btn btn-outline-secondary border-secondary border-start-0" type="button"
                                         (click)="toggleContrasena()">
                                         <i class="bi" [ngClass]="verContrasena ? 'bi-eye-slash' : 'bi-eye'"></i>
                                     </button>
@@ -143,7 +140,8 @@
                         </div>
 
                         <div class="mt-5 text-center">
-                            <button type="submit" class="btn btn-primary-custom px-5 py-2 fw-bold text-uppercase shadow-sm">
+                            <button type="submit"
+                                class="btn btn-primary-custom px-5 py-2 fw-bold text-uppercase shadow-sm">
                                 REGISTRAR
                             </button>
                         </div>

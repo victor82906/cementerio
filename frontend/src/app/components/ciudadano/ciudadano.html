@@ -1,5 +1,46 @@
 <app-cabecera></app-cabecera>
 
-
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row g-4 text-center">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm p-4">
+                    <div class="display-4 mb-3"><img src="paloma.png" alt="Icono" width="50"></div>
+                    <h3 class="h5 fw-bold">Busca otros cementerios</h3>
+                    <p class="text-muted">Usa nuestro buscador para ver cualquiera de los cementerios de la aplicacion.</p>
+                    <div class="mt-4">
+                        <button type="button" class="btn btn-primary-custom shadow-sm px-4 py-2 fw-bold" routerLink="/busqueda-cementerio">
+                            BUSCAR
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm p-4">
+                    <div class="display-4 mb-3"><img src="lapida.png" alt="Icono" width="50"></div>
+                    <h3 class="h5 fw-bold">Gestión Parcelas</h3>
+                    <p class="text-muted">Gestione sus parcelas, los difuntos de las mismas y gestione los servicios.</p>
+                    <div class="mt-4">
+                        <button type="button" class="btn btn-primary-custom shadow-sm px-4 py-2 fw-bold" (click)="parcelas()">
+                            ENTRAR
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm p-4">
+                    <div class="display-4 mb-3"><img src="ramo-de-flores.png" alt="Icono" width="50"></div>
+                    <h3 class="h5 fw-bold">Mis difuntos</h3>
+                    <p class="text-muted">Consulte donde se encuentran sus difuntos para visitarlos.</p>
+                    <div class="mt-4">
+                        <button type="button" class="btn btn-primary-custom shadow-sm px-4 py-2 fw-bold" (click)="difuntos()">
+                            ENTRAR
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 <app-footer></app-footer>

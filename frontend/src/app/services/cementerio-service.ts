@@ -7,6 +7,8 @@ import { Observable } from 'rxjs';
 })
 export class CementerioService {
   private apiUrl = 'http://localhost:8081/cementerio';
+  private apiAyuntamiento = 'http://localhost:8081/ayuntamiento';
+
 
   constructor(private http: HttpClient){}
 
@@ -17,4 +19,17 @@ export class CementerioService {
   buscaNombre(nombre: String): Observable<any> {
     return this.http.get(this.apiUrl + '?nombre=' + nombre);
   }
+
+  getByAyuntamiento(idAyuntamiento: number): Observable<any> {
+    return this.http.get(this.apiAyuntamiento + '/' + idAyuntamiento + '/cementerio');
+  }
+
+  registrarCementerio(cementerioData: any, idAyuntamiento: number): Observable<any> {
+    return this.http.post(this.apiAyuntamiento + '/' + idAyuntamiento + '/cementerio', cementerioData);
+  }
+
+  findById(id: number): Observable<any> {
+    return this.http.get(this.apiUrl + "/" + id);
+  }
+
 }

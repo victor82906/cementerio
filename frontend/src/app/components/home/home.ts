@@ -8,7 +8,7 @@ import { Footer } from '../footer/footer';
 
 @Component({
   selector: 'app-home',
-  imports: [FormsModule, CommonModule, RouterLink, Cabecera, Footer],
+  imports: [FormsModule, CommonModule, Cabecera, Footer],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })

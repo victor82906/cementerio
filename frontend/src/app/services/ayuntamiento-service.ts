@@ -23,4 +23,16 @@ export class AyuntamientoService {
     return this.http.put(this.apiUrl + "/" + id, ayuntamiento);
   }
 
+  getAll(): Observable<any> {
+    return this.http.get(this.apiUrl);
+  }
+
+  buscaNombreEmail(busqueda: string): Observable<any> {
+    return this.http.get(this.apiUrl + '?nombre=' + busqueda);
+  }
+
+  borrar(id: number): Observable<any> {
+    return this.http.delete(this.apiUrl + "/" + id);
+  }
+
 }

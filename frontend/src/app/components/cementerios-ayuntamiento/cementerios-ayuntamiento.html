@@ -1,0 +1,66 @@
+<app-cabecera></app-cabecera>
+
+<div class="container mt-5 mb-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-5 animate-fade-in">
+        <h2 class="text-custom fw-bold text-uppercase m-0">
+            MIS CEMENTERIOS
+        </h2>
+        <div class="col-md-3 mb-3 mb-md-0 text-end">
+            <button class="btn btn-success fw-bold w-100 py-2 shadow-sm" (click)="nuevoCementerio()">
+                NUEVO CEMENTERIO
+            </button>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        @if(cargando){
+        <app-cargando></app-cargando>
+        }@else{
+        @for (cementerio of cementerios; track cementerio.id) {
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 border-secondary shadow-sm overflow-hidden bg-dark-custom text-white">
+
+                <div class="ratio ratio-16x9 bg-secondary">
+                    <img [src]="'http://localhost:8081/uploads/' + cementerio.mapa"
+                        class="card-img-top object-fit-cover op-9" [alt]="cementerio.nombre">
+                </div>
+
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title fw-bold text-white mb-1">{{ cementerio.nombre }}</h5>
+
+                    <p class="text-light small mb-3 opacity-75">
+                        <i class="bi bi-geo-alt me-1 text-primary-custom"></i>{{ cementerio.direccion }}
+                    </p>
+
+                    <div class="mt-auto pt-3 border-top border-secondary">
+                        <div class="d-flex align-items-start mb-3">
+                            <div>
+                                <p class="mb-0 x-small text-uppercase text-light fw-semibold opacity-50 fs-7">Gestionado
+                                    por</p>
+                                <p class="mb-0 small fw-bold text-white">{{ cementerio.ayuntamiento.nombre }}</p>
+
+                                <p class="mb-0 small text-light opacity-75">
+                                    <i class="bi bi-telephone me-1"></i>{{ cementerio.ayuntamiento.telefono }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-outline-light w-100 fw-bold py-2 shadow-sm custom-hover-btn"
+                            (click)="abrirCementerio(cementerio.id)">
+                            VER CEMENTERIO
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        } @empty {
+        <div class="col-12 text-center py-5 border border-secondary border-dashed rounded">
+            <p class="text-secondary mb-0">No existen cementerios.</p>
+        </div>
+        }
+        }
+    </div>
+</div>
+
+<app-footer></app-footer>

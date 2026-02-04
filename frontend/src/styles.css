@@ -1,23 +1,61 @@
-/* You can add global styles to this file, and also import other style files */
-
-
-.bg-dark-custom{
+/* --- ESTILOS GENERALES Y COLORES --- */
+.bg-dark-custom {
     background-color: #0a192f;
 }
 
-/* .text-custom{
+.text-custom{
     color: #0a192f;
-} */
+}
 
-.op-9{
+.op-9 {
     opacity: 0.9;
 }
 
-.fs-7{
+.fs-7 {
     font-size: 0.7rem;
 }
 
+/* --- COMPONENTES DE INTERFAZ (BOTONES Y CARDS) --- */
+.btn-primary-custom {
+    background-color: #1a3a5f;
+    color: white;
+    border: none;
+    transition: 0.3s;
+}
 
+.btn-primary-custom:hover {
+    background-color: #2a5a8f;
+    color: white;
+}
+
+.card {
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+}
+
+.card-horizontal {
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.card-horizontal:hover {
+    transform: scale(1.01);
+    border-color: #1a3a5f;
+}
+
+.badge {
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    background-color: #1a3a5f;
+}
+
+.tracking-wider {
+    letter-spacing: 2px;
+}
+
+/* --- FORMULARIOS Y VISTA PREVIA --- */
 .preview-frame {
     width: 200px;
     height: 200px;
@@ -30,10 +68,9 @@
 .profile-img-preview {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Esto hace que la foto rellene el círculo sin estirarse */
+    object-fit: cover;
 }
 
-/* Estilo para que el input file no se vea blanco al seleccionar */
 .custom-file-input::-webkit-file-upload-button {
     background-color: #6c757d;
     color: white;
@@ -48,89 +85,371 @@
     cursor: not-allowed;
 }
 
+.custom-textarea {
+    resize: vertical;
+    min-height: 100px;
+    transition: all 0.3s ease;
+}
 
-/* Estilo para la sección Hero */
+.custom-textarea:focus {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: #1a3a5f;
+    outline: none;
+    color: white;
+}
+
+/* --- CABECERA Y PERFIL --- */
+.avatar-header {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    background-color: #0a192f;
+}
+
+.profile-photo-container {
+    width: 60px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.img-ciudadano {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+/* --- SECCIÓN HERO --- */
 .hero-section {
     background: linear-gradient(rgba(10, 25, 47, 0.8), rgba(10, 25, 47, 0.8)), 
                 url('../public/cementerioLanding.jpg') center/cover;
     padding: 100px 0;
 }
 
-/* Botón personalizado con un azul que destaque pero sea serio */
-.btn-primary-custom {
-    background-color: #1a3a5f;
-    color: white;
-    border: none;
-    transition: 0.3s;
+/* --- ESTRUCTURA DEL MAPA INTERACTIVO (SVG) --- */
+/* Esta sección reemplaza a mapa-wrapper y img-mapa-full anteriores */
+
+.contenedor-interactivo {
+    position: relative;
+    width: 100%;
+    background-color: #000;
+    line-height: 0; /* Elimina espacio inferior fantasma bajo la imagen */
 }
 
-.btn-primary-custom:hover {
-    background-color: #2a5a8f;
-    color: white;
+.img-referencia {
+    width: 100%;
+    height: auto;
+    display: block;
 }
 
-/* Ajuste de tarjetas */
-.card {
-    transition: transform 0.3s ease;
+.svg-capa {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
-.card:hover {
-    transform: translateY(-10px);
-}
-
-.avatar-header {
-    width: 60px;
-    height: 60px;
-    object-fit: cover; /* Evita que la imagen se deforme si no es cuadrada */
-    background-color: #0a192f;
-}
-
-/* Contenedor para asegurar que no rompa el alineado */
-.profile-photo-container {
-    width: 60px; /* Mismo ancho que la imagen para mantener el equilibrio con el botón volver */
-    display: flex;
-    justify-content: flex-end;
-}
-
-
-/* text area */
-
-.custom-textarea {
-    resize: vertical; /* Evita que el usuario rompa el ancho del diseño */
-    min-height: 100px;
+.zona-clickable {
+    fill: rgba(26, 58, 95, 0); /* Invisible por defecto */
+    stroke: #ffca2c;           /* Borde amarillo (color warning) */
+    stroke-width: 1;
+    cursor: pointer;
     transition: all 0.3s ease;
 }
 
-/* Efecto al hacer clic (Focus) */
-.custom-textarea:focus {
-    background-color: rgba(255, 255, 255, 0.05) !important; /* Un ligero brillo */
-    border-color: #1a3a5f !important; /* Tu azul primario personalizado */
-    box-shadow: 0 0 0 0.25 margin rgba(26, 58, 95, 0.25);
-    outline: none;
+.zona-clickable:hover {
+    fill: rgba(255, 202, 44, 0.3); /* Resalte amarillo transparente al pasar el ratón */
+    stroke-width: 2;
+}
+
+/* --- OTROS --- */
+.modal-content {
+    box-shadow: 0 0 20px rgba(220, 53, 69, 0.2);
+}
+
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+.custom-hover-link {
+    transition: color 0.3s ease;
+}
+
+.custom-hover-link:hover {
+    color: #2a5a8f;
+}
+
+.zona-poligono{
+    fill: rgba(255, 202, 44, 0.3); /* Resalte amarillo transparente al pasar el ratón */
+    stroke-width: 2;
+    cursor: pointer;
+}
+
+.border-dashed {
+    border-style: dashed;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+}
+
+.bg-black {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.form-select option {
+    background-color: #0a192f;
     color: white;
 }
 
-/* Estilo del scrollbar para que no desentone con el modo oscuro */
-.custom-textarea::-webkit-scrollbar {
+/* Altura uniforme para inputs, select y botón */
+.h-input {
+    height: 45px;
+}
+
+/* Espacio reservado para errores para que el formulario no "baile" */
+.error-container {
+    height: 20px;
+    margin-top: 4px;
+}
+
+/* Contenedor de descripción con scroll si es muy larga */
+.descripcion-container {
+    /* margin-top: 10px; */
+    /* min-height: 40px;
+    max-height: 80px; */
+    overflow-y: auto;
+    padding: 0 8px;
+    /* background: rgba(255, 255, 255, 0.03); */
+    border-radius: 4px;
+}
+
+.italic {
+    font-style: italic;
+    /* font-size: 0.85rem; */
+}
+
+/* Animación suave para la aparición de la descripción */
+.animate-fade-in {
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Estilo para los options del select */
+.form-select option {
+    background-color: #0a192f; /* Tu color bg-dark-custom */
+    color: white;
+}
+
+
+
+/* PARCELAS */
+
+/* --- MODAL DE ZONA Y PARCELAS (GRID) --- */
+
+/* Contenedor de la matriz (Grid System) */
+.grid-parcelas {
+    display: grid;
+    /* Las columnas se definen dinámicamente en el HTML, aquí solo el gap */
+    gap: 8px;
+    padding: 10px;
+    max-height: 60vh; /* Scroll vertical si hay muchas filas */
+    overflow-y: auto;
+}
+
+/* Estilo de cada cajita (Parcela) */
+.parcela-item {
+    aspect-ratio: 1 / 1; /* Mantiene la forma cuadrada siempre */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.05);
+    
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.parcela-item:hover {
+    transform: scale(1.05); /* Efecto pop-up */
+    z-index: 10;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+/* Número pequeño en la esquina */
+.parcela-numero {
+    position: absolute;
+    top: 2px;
+    left: 4px;
+    font-size: 0.7rem;
+    opacity: 0.6;
+}
+
+/* --- ESTADOS DE PARCELA --- */
+
+/* --- MODAL DE ZONA Y PARCELAS (GRID) --- */
+
+.grid-parcelas {
+    display: grid;
+    gap: 8px;
+    padding: 10px;
+    
+    /* CAMBIO AQUÍ: Tamaño fijo y scroll */
+    height: 400px;      /* Siempre mide 400px de alto */
+    overflow-y: auto;   /* Scroll si las parcelas no caben */
+    
+    /* Borde opcional para encuadrar la zona de scroll */
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+}
+
+/* Estilo de cada cajita (Parcela) */
+.parcela-item {
+    aspect-ratio: 1 / 1; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.05);
+    
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.parcela-item:hover {
+    transform: scale(1.05);
+    z-index: 10;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.parcela-numero {
+    position: absolute;
+    top: 2px;
+    left: 4px;
+    font-size: 0.7rem;
+    opacity: 0.6;
+}
+
+/* --- ESTADOS --- */
+.libre {
+    border-color: #198754;
+    color: #198754;
+}
+
+.libre:hover {
+    background-color: #198754;
+    color: white;
+}
+
+.ocupada {
+    background-color: rgba(220, 53, 69, 0.2);
+    border-color: #dc3545;
+    color: #dc3545;
+    cursor: not-allowed;
+}
+
+.cart-icon {
+    display: none;
+}
+.libre:hover .cart-icon {
+    display: block;
+    animation: fadeIn 0.2s;
+}
+
+/* --- LEYENDA Y SCROLLBAR --- */
+.leyenda-box {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    display: inline-block;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.leyenda-box.libre { background-color: #198754; }
+.leyenda-box.ocupada { background-color: rgba(220, 53, 69, 0.5); }
+
+/* Scrollbar personalizado */
+.grid-parcelas::-webkit-scrollbar {
     width: 8px;
 }
-
-.custom-textarea::-webkit-scrollbar-track {
-    background: #0a192f; 
+.grid-parcelas::-webkit-scrollbar-track {
+    background: #0a192f;
 }
-
-.custom-textarea::-webkit-scrollbar-thumb {
+.grid-parcelas::-webkit-scrollbar-thumb {
     background: #1a3a5f;
-    border-radius: 10px;
+    border-radius: 4px;
 }
 
-.custom-textarea::-webkit-scrollbar-thumb:hover {
-    background: #2a5a8f;
+.grid-parcelas {
+    display: grid;
+    gap: 8px;
+    padding: 20px;
+    
+    /* --- DIMENSIONES VERTICALES --- */
+    /* Usamos max-height en vez de height para que si son pocas filas,
+       la caja se haga pequeña y no ocupe 400px vacíos */
+    /* max-height: 400px;  */
+    height: fit-content;
+    overflow: auto;    /* Scroll si se pasa de 400px */
+
+    /* --- ALINEACIÓN VERTICAL (LA SOLUCIÓN A TU PROBLEMA) --- */
+    /* Esto obliga a las filas a pegarse arriba (start) 
+       en vez de separarse para ocupar todo el alto */
+    align-content: start; 
+
+    /* --- DIMENSIONES HORIZONTALES Y CENTRADO --- */
+    width: fit-content; /* Se ajusta al ancho de las columnas */
+    max-width: 100%;    /* No se sale del modal */
+    margin: 0 auto;     /* Se centra horizontalmente */
+    
+    /* Estética */
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
 }
 
-/* Estilo para el placeholder */
-.custom-textarea::placeholder {
-    color: rgba(255, 255, 255, 0.3);
-    font-style: italic;
-    font-size: 0.9rem;
+.parcela-item {
+    /* TAMAÑO FIJO E INAMOVIBLE */
+    width: 75px;
+    height: 75px;
+    
+    /* El resto igual que antes... */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.2s;
+}
+
+
+/* Borde discontinuo para la zona del precio */
+.dashed-border {
+    border-style: dashed;
+}
+
+/* Efecto hover para el botón de pagar */
+.hover-scale {
+    transition: transform 0.2s;
+}
+.hover-scale:hover {
+    transform: scale(1.02);
+}
+
+.tracking-widest {
+    letter-spacing: 2px;
 }

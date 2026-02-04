@@ -1,0 +1,48 @@
+<div class="modal fade" #modalElement tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content bg-dark-custom border-secondary text-white">
+
+            <div class="modal-header border-secondary">
+                @if(zona){
+                <h5 class="modal-title fw-bold text-primary-custom">
+                    {{ zona.tipoZona.nombre || 'Zona ' + zona.id }}
+                    <span class="text-secondary small italic ms-2">({{zona.filas}}x{{zona.columnas}})</span>
+                </h5>
+                }
+                <button type="button" class="btn-close btn-close-white" (click)="cerrar()"></button>
+            </div>
+
+            <div class="modal-body">
+
+                @if(cargando){
+                <span class="mt-2 text-white">Cargando...</span>
+                }@else if(zona){
+                <div class="d-flex justify-content-center gap-4 mb-4 small italic">
+                    <div class="d-flex align-items-center"><span class="leyenda-box libre me-2"></span> Libre</div>
+                    <div class="d-flex align-items-center"><span class="leyenda-box ocupada me-2"></span> Ocupada</div>
+                </div>
+
+                <div class="grid-parcelas" [style.gridTemplateColumns]="'repeat(' + zona.columnas + ', 75px)'">
+                    @for (parcela of parcelas; track parcela.id) {
+                    <div class="parcela-item" [class.ocupada]="parcela.ocupada" [class.libre]="!parcela.ocupada"
+                        (click)="clickParcela(parcela)" [title]="'Parcela ' + parcela.numero">
+
+                        <span class="parcela-numero">{{ parcela.numero }}</span>
+
+                        @if(parcela.ocupada){
+                        <i class="bi bi-lock-fill fs-5"></i>
+                        } @else {
+                        <i class="bi bi-cart-plus fs-5 cart-icon"></i>
+                        }
+                    </div>
+                    }
+                </div>
+                }
+            </div>
+
+            <div class="modal-footer border-secondary">
+                <button type="button" class="btn btn-secondary" (click)="cerrar()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

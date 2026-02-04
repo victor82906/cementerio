@@ -1,0 +1,77 @@
+<app-cabecera></app-cabecera>
+
+<div class="container py-5">
+    @if(cargando){
+        <app-cargando></app-cargando>
+    }@else if(zona){
+    <div class="p-5 rounded-3 border border-secondary shadow-lg bg-dark-custom mb-4">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h1 class="text-white fw-bold text-uppercase italic mb-3">{{ cementerio.nombre }}</h1>
+                <p class="text-light fs-5 mb-2">
+                    <i class="bi bi-geo-alt-fill text-primary-custom me-2"></i>{{ cementerio.direccion }}
+                </p>
+                <p class="text-secondary">
+                    <i class="bi bi-telephone-fill me-2"></i>Contacto Ayuntamiento:
+                    <span class="text-white fw-bold">{{ cementerio.ayuntamiento?.telefono }}</span>
+                </p>
+            </div>
+
+            <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
+                <div class="d-flex flex-column gap-3">
+
+                    @if (authService.getRol() === 'ADMIN') {
+                    <button (click)="gestionarZonas()"
+                        class="btn btn-primary-custom py-2 fw-bold text-uppercase shadow-sm">
+                        <i class="bi bi-grid-3x3-gap me-2"></i>Gestionar Zonas
+                    </button>
+                    }
+
+                    @if (authService.getRol() === 'ADMIN' || authService.getRol() === 'AYUNTAMIENTO'){
+                    <button (click)="tarifas()" class="btn btn-warning py-2 fw-bold text-uppercase shadow-sm text-dark">
+                        <i class="bi bi-cash-stack me-2"></i>Gestionar Tarifas
+                    </button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="rounded-3 border border-secondary bg-dark-custom shadow-lg overflow-hidden">
+                <h4
+                    class="text-white py-3 mb-0 text-center text-uppercase small fw-bold tracking-wider border-bottom border-secondary">
+                    Mapa Detallado
+                </h4>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="rounded-3 border border-secondary bg-dark-custom shadow-lg overflow-hidden">
+
+                            <div class="contenedor-interactivo">
+                                <img [src]="'http://localhost:8081/uploads/' + cementerio.mapa" class="img-referencia"
+                                    [alt]="'Mapa de ' + cementerio.nombre"
+                                    (load)="ajustaraMapa($event)">
+
+                                <svg [attr.viewBox]="viewBoxMapa" class="svg-capa" preserveAspectRatio="none">
+                                    @for (zona of cementerio.zonas; track zona.id) {
+                                    <polygon [attr.points]="zona.coordenadas" class="zona-clickable" (click)="abrirZona(zona.id)">
+                                        <title>{{ zona.nombre }}</title>
+                                    </polygon>
+                                    }
+                                </svg>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</div>
+
+<app-zona #zona></app-zona>
+
+<app-footer></app-footer>

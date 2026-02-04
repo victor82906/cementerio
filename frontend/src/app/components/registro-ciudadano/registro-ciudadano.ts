@@ -38,6 +38,7 @@ export class RegistroCiudadano implements OnInit{
   registrar(){
     if (this.registroCiudadano.valid) {
       const ciudadano = this.registroCiudadano.value;
+      ciudadano.dni = ciudadano.dni.toUpperCase();
       delete ciudadano.repetirContrasena;
 
       this.ciudadanoService.registrarCiudadano(ciudadano).subscribe({

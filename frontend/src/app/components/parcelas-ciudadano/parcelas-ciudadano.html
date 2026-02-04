@@ -1,0 +1,121 @@
+<app-cabecera></app-cabecera>
+
+<div class="container py-5 page-container">
+
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10">
+
+            <div class="d-flex align-items-center mb-5 animate-fade-in">
+                <h2 class="text-custom fw-bold text-uppercase mb-0">Mis Parcelas</h2>
+            </div>
+
+            @if(cargando){
+            <app-cargando></app-cargando>
+            } @else {
+
+            <div class="row g-4">
+                @for (concesion of concesiones; track concesion.id) {
+                <div class="col-12">
+                    <div class="card bg-dark-custom border-secondary shadow-lg h-100 card-parcela animate-fade-in">
+
+                        <div class="card-header bg-transparent border-secondary py-3">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div
+                                        class="rounded-circle bg-secondary bg-opacity-25 d-flex align-items-center justify-content-center icon-circle">
+                                        <i class="bi bi-bank2 text-white"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="text-white fw-bold mb-0 text-uppercase">{{ concesion.cementerio.nombre }}
+                                        </h6>
+                                        <p class="text-secondary small mb-0">
+                                            <i class="bi bi-geo-alt me-1"></i>{{ concesion.cementerio.direccion }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                @if(concesion.parcela.ocupada) {
+                                <span class="badge bg-danger bg-opacity-10 text-danger border border-danger">
+                                    OCUPADA
+                                </span>
+                                } @else {
+                                <span class="badge bg-success bg-opacity-10 text-success border border-success">
+                                    DISPONIBLE
+                                </span>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-5 border-end border-secondary text-center">
+                                    <span class="d-block text-secondary small fw-bold text-uppercase">Parcela Nº</span>
+                                    <h1 class="text-white fw-bold display-4 mb-0">{{ concesion.parcela.numero }}</h1>
+                                </div>
+
+                                <div class="col-7 ps-4">
+                                    <div class="mb-3">
+                                        <small class="text-secondary d-block">Capacidad</small>
+                                        <div class="text-white fw-bold">
+                                            <i class="bi bi-people-fill text-primary-custom me-2"></i>
+                                            {{ concesion.zona.capacidadParcelas }} Difuntos
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-2">
+                                        <small class="text-secondary d-block">Coste Concesión</small>
+                                        <div class="text-white">
+                                            <i class="bi bi-tag-fill text-primary-custom me-2"></i>
+                                            {{ concesion.precio }} €
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="card-footer bg-dark-custom border-secondary">
+
+                            <div class="d-flex justify-content-between align-items-center mt-1 mb-3">
+                                <span class="badge text-white fw-bold">
+                                    {{ concesion.zona.tipoZona.nombre }}
+                                </span>
+                                <small class="text-secondary fst-italic">
+                                    <i class="bi bi-crosshair me-1"></i>{{ concesion.zona.coordenadas }}
+                                </small>
+                                <div class="text-end">
+                                    <small class="text-secondary d-block text-xs">VENCIMIENTO</small>
+                                    <span class="text-white small">{{ concesion.fechaFin }}</span>
+                                </div>
+                            </div>
+
+                            <div class="d-flex gap-2">
+                                <button (click)="comprarServicio(concesion.parcela.id, concesion.cementerio.id)"
+                                    class="btn btn-warning fw-bold text-dark col-6">
+                                    <i class="bi bi-pencil-square me-1"></i>COMPRAR SERVICIO
+                                </button>
+                                <button (click)="borrarConcesion(concesion.id)"
+                                    class="btn btn-danger fw-bold col-6">
+                                    <i class="bi bi-trash me-1"></i>DAR DE BAJA
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                } @empty {
+                <div class="col-12 text-center py-5 border border-dark border-dashed rounded">
+                    <p class="text-dark mb-0">Actualmente no consta ninguna parcela activa a su nombre.</p>
+                    <button class="btn btn-link text-dark" routerLink="/busqueda-cementerio">Buscar Cementerios</button>
+                </div>
+                }
+            </div>
+            }
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>
+
+<app-modal-confirmar #modalConfirmar (accionConfirmada)="confirmarBorrado()"></app-modal-confirmar>
