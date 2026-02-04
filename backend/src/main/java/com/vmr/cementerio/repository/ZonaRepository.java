@@ -10,4 +10,7 @@ public interface ZonaRepository extends JpaRepository<Zona, Long> {
     
     List<Zona> findByCementerioId(Long id);
 
+    boolean existsByIdAndCementerioAyuntamientoId(Long id, Long ayuntamientoId);
+
+
 }

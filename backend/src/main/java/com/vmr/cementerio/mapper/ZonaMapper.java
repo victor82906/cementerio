@@ -9,9 +9,16 @@ import com.vmr.cementerio.model.Zona;
 @Mapper(componentModel = "spring")
 public interface ZonaMapper {
     
-    @Mapping(target = "parcelas", ignore = true)
+    @Mapping(source = "filas", target = "filas")
+    @Mapping(source = "columnas", target = "columnas")
+    @Mapping(source = "precio", target = "precio")
+    @Mapping(source = "capacidadParcelas", target = "capacidadParcelas")
     Zona toEntity(ZonaDTO zonaDTO);
 
+    @Mapping(source = "filas", target = "filas")
+    @Mapping(source = "columnas", target = "columnas")
+    @Mapping(source = "precio", target = "precio")
+    @Mapping(source = "capacidadParcelas", target = "capacidadParcelas")
     ZonaDTO toDTO(Zona zona);
 
 }

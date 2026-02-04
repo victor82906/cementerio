@@ -21,8 +21,6 @@ public class Parcela {
 
     private String numero;
 
-    private int capacidad;
-
     private boolean ocupada;
 
     @ManyToOne

@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import jakarta.validation.Valid;
 import java.util.List;
 import com.vmr.cementerio.dto.response.CiudadanoDTO;
 import com.vmr.cementerio.dto.response.CiudadanoEditDTO;
-
 import org.springframework.web.bind.annotation.RequestBody;
 import com.vmr.cementerio.dto.response.ConcesionDTO;
 import com.vmr.cementerio.service.CiudadanoService;
 import com.vmr.cementerio.service.ConcesionService;
+import com.vmr.cementerio.dto.response.DifuntoDTO;
+import com.vmr.cementerio.service.DifuntoService;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,6 +30,7 @@ public class CiudadanoController {
     
     private final CiudadanoService ciudadanoService;
     private final ConcesionService concesionService;
+    private final DifuntoService difuntoService;
 
     @GetMapping
     public ResponseEntity<List<CiudadanoDTO>> getAll(@RequestParam(required = false) String nombre){
@@ -69,5 +70,10 @@ public class CiudadanoController {
         return ResponseEntity.ok(concesionService.findByCiudadanoId(id));
     }
 
+    @GetMapping("/{id}/difunto")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('CIUDADANO') and #id == principal.id)")
+    public ResponseEntity<List<DifuntoDTO>> getDifuntos(@PathVariable Long id){
+        return ResponseEntity.ok(difuntoService.findDifuntosByCiudadanoId(id));
+    }
 
 }

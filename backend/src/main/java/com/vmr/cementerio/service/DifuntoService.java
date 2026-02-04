@@ -1,7 +1,9 @@
 package com.vmr.cementerio.service;
 
 import com.vmr.cementerio.dto.response.DifuntoDTO;
+import com.vmr.cementerio.dto.response.FacturaDTO;
 import java.util.List;
+import com.vmr.cementerio.dto.response.ParcelaDTO;
 
 public interface DifuntoService {
     
@@ -9,14 +11,16 @@ public interface DifuntoService {
 
     public DifuntoDTO findById(Long id);
 
-    public DifuntoDTO save(Long parcelaId, DifuntoDTO difuntoDTO);
+    public FacturaDTO save(Long parcelaId, DifuntoDTO difuntoDTO);
 
     public DifuntoDTO update(Long id, DifuntoDTO difuntoDTO);
 
-    public void delete(Long id);
+    public FacturaDTO delete(Long id);
 
     public List<DifuntoDTO> findByParcelaId(Long id);
 
-    // public List<DifuntoDTO> findByCiudadanoId(Long id);
+    public List<DifuntoDTO> findDifuntosByCiudadanoId(Long id);
+
+    public ParcelaDTO getParcelaByDifuntoId(Long id);
 
 }

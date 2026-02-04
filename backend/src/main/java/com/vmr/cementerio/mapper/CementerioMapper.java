@@ -10,9 +10,10 @@ import com.vmr.cementerio.dto.response.CementerioDTO;
 public interface CementerioMapper {
     
     @Mapping(target = "ayuntamiento", ignore = true)
-    @Mapping(target = "zonas", ignore = true)
+    @Mapping(source = "tiempoExhumacion", target = "tiempoExhumacion") // al ser int hay que especificarlo
     Cementerio toEntity(CementerioDTO cementerioDTO);
 
+    @Mapping(source = "tiempoExhumacion", target = "tiempoExhumacion")
     CementerioDTO toDTO(Cementerio cementerio);
 
 }

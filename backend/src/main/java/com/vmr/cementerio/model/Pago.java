@@ -1,15 +1,19 @@
 package com.vmr.cementerio.model;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.Min;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.EnumType;
+import com.vmr.cementerio.enums.EstadoPago;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.JoinColumn;
 
 @Entity
@@ -17,22 +21,21 @@ import jakarta.persistence.JoinColumn;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Tarifa {
+public class Pago {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Min(value = 0, message = "El precio no puede ser negativo")
-    private double precio;
+    private BigDecimal monto;
 
-    @ManyToOne
-    @JoinColumn(name = "cementerio_id")
-    private Cementerio cementerio;
+    @Enumerated(EnumType.STRING)
+    private EstadoPago estado;
 
-    @ManyToOne
-    @JoinColumn(name = "tipo_servicio_id")
-    private TipoServicio tipoServicio;
+    private LocalDateTime fechaPago;
 
+    @OneToOne
+    @JoinColumn(name = "factura_id")
+    private Factura factura;
 
 }

@@ -13,4 +13,8 @@ public interface ConcesionRepository extends JpaRepository<Concesion, Long>{
 
     List<Concesion> findByCiudadanoId(Long id);
 
+    boolean existsByParcelaIdAndCiudadanoId(Long parcelaId, Long ciudadanoId);
+
+    boolean existsByIdAndCiudadanoId(Long id, Long ciudadanoId);
+
 }

@@ -15,9 +15,6 @@ public class ParcelaDTO {
     @NotBlank(message = "El numero de parcela es obligatorio")
     private String numero;
 
-    @Min(value = 1, message = "La capacidad tiene que ser de 1 difunto o superior")
-    private int capacidad;
-
     private boolean ocupada;
 
     // private Set<DifuntoDTO> difuntos;

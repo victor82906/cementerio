@@ -44,14 +44,84 @@ public class SecurityConfig {
             }))
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests((authorize) -> authorize
-                // .anyRequest().permitAll()
-                .requestMatchers(HttpMethod.DELETE, "/ayuntamiento/{id}/**").hasRole("ADMIN")
+            
+                // ayuntamiento controller
+                .requestMatchers(HttpMethod.GET, "/ayuntamiento").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/ayuntamiento").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/ayuntamiento/{id}").hasRole("ADMIN")
                 .requestMatchers("/ayuntamiento/{id}/**").hasAnyRole("AYUNTAMIENTO", "ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "/ciudadano/{id}/**").hasRole("ADMIN")
-                .requestMatchers("/ciudadano/{id}/**").hasAnyRole("CIUDADANO", "ADMIN")
+
+                // cementerio controller
+                .requestMatchers(HttpMethod.GET, "/cementerio/{id}/tarifa").authenticated()
+                .requestMatchers(HttpMethod.POST, "/cementerio/{id}/tarifa").authenticated()
+                .requestMatchers(HttpMethod.GET, "/cementerio/{id}/zona").permitAll()
+                .requestMatchers(HttpMethod.POST, "/cementerio/{id}/zona").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/cementerio/**").permitAll()
+                .requestMatchers(HttpMethod.PUT, "/cementerio/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/cementerio/**").hasRole("ADMIN")
+
+                // ciudadano controller
+                .requestMatchers(HttpMethod.POST, "/ciudadano").permitAll()
+                .requestMatchers(HttpMethod.GET, "/ciudadano").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/ciudadano/**").hasRole("ADMIN")
+                .requestMatchers("/ciudadano/{id}/**").authenticated()
+
+                // concesion controller
+                .requestMatchers(HttpMethod.GET, "/concesion").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/concesion/{id}").authenticated()
+                .requestMatchers(HttpMethod.PUT, "/concesion/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/concesion/{id}").authenticated()
+
+                // difunto controller
+                .requestMatchers(HttpMethod.GET, "/difunto").permitAll()
+                .requestMatchers(HttpMethod.PUT, "/difunto/**").hasRole("ADMIN")
+                .requestMatchers("/difunto/{id}/**").authenticated()
+
+                // parcela controller
+                .requestMatchers(HttpMethod.GET, "/parcela").permitAll()
+                .requestMatchers(HttpMethod.GET, "/parcela/{id}").permitAll()
+                .requestMatchers(HttpMethod.GET, "/parcela/{id}/ayuntamiento").permitAll()
+                .requestMatchers(HttpMethod.GET, "/parcela/{id}/zona").permitAll()
+                .requestMatchers(HttpMethod.PUT, "/parcela/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/parcela/**").hasRole("ADMIN")
+                .requestMatchers("/parcela/{id}/**").authenticated()
+
+                // servicio controller
+                .requestMatchers(HttpMethod.GET, "/servicio/{id}").authenticated()
+                .requestMatchers(HttpMethod.GET, "/servicio").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/servicio/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/servicio/**").hasRole("ADMIN")
+
+                // tarifa controller
+                .requestMatchers(HttpMethod.GET, "/tarifa").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/tarifa/{id}").authenticated()
+                .requestMatchers("/tarifa/{id}/**").authenticated()
+
+                // tipo servicio controller
+                .requestMatchers(HttpMethod.GET, "/tipo-servicio/**").authenticated()
+                .requestMatchers(HttpMethod.POST, "/tipo-servicio").hasAnyRole("ADMIN", "AYUNTAMIENTO")
+                .requestMatchers(HttpMethod.PUT, "/tipo-servicio/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/tipo-servicio/**").hasRole("ADMIN")
+
+                // tipo zona controller
+                .requestMatchers(HttpMethod.GET, "/tipo-zona/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/tipo-zona").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/tipo-zona/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/tipo-zona/**").hasRole("ADMIN")
+
+                // usuario controller
+                .requestMatchers(HttpMethod.GET, "/usuario/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/usuario/**").authenticated()
+
+                // zona controller
+                .requestMatchers(HttpMethod.GET, "/zona/{id}/parcela").permitAll()
+                .requestMatchers(HttpMethod.GET, "/zona/{id}/cementerio").permitAll()
+                .requestMatchers(HttpMethod.GET, "/zona").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/zona/{id}").authenticated()
+                .requestMatchers("/zona/**").authenticated()
+
                 .requestMatchers("/auth/login").permitAll()
-                .anyRequest().permitAll()
-                // .anyRequest().authenticated()
+                .anyRequest().authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

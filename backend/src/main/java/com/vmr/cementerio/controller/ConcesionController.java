@@ -1,6 +1,7 @@
 package com.vmr.cementerio.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,7 @@ import java.util.List;
 @RequestMapping("/concesion")
 public class ConcesionController {
     
-    private ConcesionService concesionService;
+    private final ConcesionService concesionService;
 
     @GetMapping
     public ResponseEntity<List<ConcesionDTO>> getAll(){
@@ -37,6 +38,7 @@ public class ConcesionController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('CIUDADANO') and @concesionRepository.existsByIdAndCiudadanoId(#id, principal.id))")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         concesionService.delete(id);
         return ResponseEntity.noContent().build();

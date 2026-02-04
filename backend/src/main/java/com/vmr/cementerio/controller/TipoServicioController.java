@@ -38,7 +38,7 @@ public class TipoServicioController {
         return ResponseEntity.status(HttpStatus.CREATED).body(tipoServicioService.save(tipoServicioDTO));
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<TipoServicioDTO> update(@PathVariable Long id, @Valid @RequestBody TipoServicioDTO tipoServicioDTO){
         return ResponseEntity.ok(tipoServicioService.update(id, tipoServicioDTO));
     }

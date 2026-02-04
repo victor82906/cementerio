@@ -1,6 +1,5 @@
 package com.vmr.cementerio.exception;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -12,7 +11,6 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import java.util.Map;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import java.io.IOException;
 
 @RestControllerAdvice
@@ -51,6 +49,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<String> handleDuplicatedData(DataIntegrityViolationException ex) {
         return new ResponseEntity<>("Campo unico duplicado en la base de datos", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<String> handleIllegalState(IllegalStateException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
 
     // JUAN PEDRO 

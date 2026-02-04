@@ -10,6 +10,7 @@ import com.vmr.cementerio.model.Concesion;
 public interface ConcesionMapper {
     
     @Mapping(target = "parcela", ignore = true)
+    @Mapping(target = "ciudadano", ignore = true)
     Concesion toEntity(ConcesionDTO concesionDTO);
 
     @Mapping(source = "ciudadano.id", target = "ciudadanoId")

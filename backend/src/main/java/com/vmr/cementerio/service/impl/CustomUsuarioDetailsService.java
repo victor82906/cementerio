@@ -1,6 +1,9 @@
 package com.vmr.cementerio.service.impl;
 
 import com.vmr.cementerio.repository.UsuarioRepository;
+
+import jakarta.transaction.Transactional;
+
 import com.vmr.cementerio.model.Usuario;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,6 +24,7 @@ public class CustomUsuarioDetailsService implements UserDetailsService {
     // }
 
     @Override
+    @Transactional
     public Usuario loadUserByUsername(String email) {
         System.out.println("🔍 Buscando email en BD: '" + email + "'");
         System.out.println("🔍 Longitud: " + email.length());

@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,6 +38,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/foto/{id}")
+    @PreAuthorize("hasRole('ADMIN') or #id == principal.id")
     public ResponseEntity<Map<String, String>> subirFoto(@PathVariable Long id, @RequestParam MultipartFile foto) throws IOException {
         String nombreFoto = usuarioService.guardarFoto(id, foto);
 
@@ -48,6 +50,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/contrasena/{id}")
+    @PreAuthorize("hasRole('ADMIN') or #id == principal.id")
     public ResponseEntity<Map<String, String>> cambiarContrasena(@PathVariable Long id, @Valid @RequestBody CambiarContrasenaDTO cambiarContrasenaDTO){
         return usuarioService.cambiarContrasena(id, cambiarContrasenaDTO);
     }

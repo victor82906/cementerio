@@ -8,6 +8,7 @@ import com.vmr.cementerio.dto.response.DifuntoDTO;
 @Mapper(componentModel = "spring")
 public interface DifuntoMapper {
 
+    @Mapping(target = "fechaEntierro", ignore = true)
     Difunto toEntity(DifuntoDTO difuntoDTO);
     
     @Mapping(source = "parcela.numero", target = "numeroParcela")

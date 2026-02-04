@@ -15,12 +15,12 @@ public class ConcesionDTO {
     @PositiveOrZero(message = "El precio no puede ser negativo")
     private double precio;
 
-    @NotNull(message = "La fecha de inicio es obligatoria")
-    @FutureOrPresent(message = "La fecha de inicio no puede ser en el pasado")
+    // @NotNull(message = "La fecha de inicio es obligatoria")
+    // @FutureOrPresent(message = "La fecha de inicio no puede ser en el pasado")
     private LocalDate fechaInicio;
 
-    @NotNull(message = "La fecha de fin es obligatoria")
-    @Future(message = "La fecha de fin debe ser una fecha futura")
+    // @NotNull(message = "La fecha de fin es obligatoria")
+    // @Future(message = "La fecha de fin debe ser una fecha futura")
     private LocalDate fechaFin;
 
     private Long ciudadanoId;

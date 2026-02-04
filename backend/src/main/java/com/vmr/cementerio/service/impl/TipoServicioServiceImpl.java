@@ -3,6 +3,7 @@ package com.vmr.cementerio.service.impl;
 import com.vmr.cementerio.mapper.TipoServicioMapper;
 import com.vmr.cementerio.repository.TipoServicioRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.vmr.cementerio.dto.response.TipoServicioDTO;
@@ -29,6 +30,7 @@ public class TipoServicioServiceImpl implements TipoServicioService{
                 .orElseThrow(() -> new EntityNotFoundException("Tipo de servicio no encontrado")));
     }
 
+    @Transactional
     public TipoServicioDTO save(TipoServicioDTO tipoServicioDTO){
         tipoServicioDTO.setNombre(tipoServicioDTO.getNombre().trim().toUpperCase());
         if(tipoServicioRepository.findByNombre(tipoServicioDTO.getNombre()).isPresent()){
@@ -38,6 +40,7 @@ public class TipoServicioServiceImpl implements TipoServicioService{
         }
     }
 
+    @Transactional
     public TipoServicioDTO update(Long id, TipoServicioDTO tipoServicioDTO){
         TipoServicio tipoServicio = tipoServicioRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException());
@@ -46,6 +49,7 @@ public class TipoServicioServiceImpl implements TipoServicioService{
         return tipoServicioMapper.toDTO(tipoServicioRepository.save(tipoServicio));
     }
 
+    @Transactional
     public void delete(Long id){
         if(tipoServicioRepository.existsById(id)){
             tipoServicioRepository.deleteById(id);

@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import com.vmr.cementerio.repository.RolRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import com.vmr.cementerio.model.Rol;
 import com.vmr.cementerio.repository.CiudadanoRepository;
@@ -49,6 +51,7 @@ public class CiudadanoServiceImpl implements CiudadanoService{
                 .orElseThrow(() -> new EntityNotFoundException("Ciudadano no encontrado")));
     }
 
+    @Transactional
     public CiudadanoDTO save(CiudadanoDTO ciudadanoDTO){
         if(usuarioRepository.findByEmail(ciudadanoDTO.getEmail()).isPresent()){
             throw new IllegalArgumentException("El correo electrónico ya está en uso.");
@@ -65,6 +68,7 @@ public class CiudadanoServiceImpl implements CiudadanoService{
         }
     }
 
+    @Transactional
     public CiudadanoEditDTO update(Long id, CiudadanoEditDTO ciudadanoDTO){
         Ciudadano ciudadano = ciudadanoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Ciudadano no encontrado"));
@@ -73,6 +77,7 @@ public class CiudadanoServiceImpl implements CiudadanoService{
         return ciudadanoEditMapper.toDTO(ciudadanoRepository.save(ciudadano));
     }
 
+    @Transactional
     public void delete(Long id){
         if(ciudadanoRepository.existsById(id)){
             ciudadanoRepository.deleteById(id);

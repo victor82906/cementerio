@@ -10,4 +10,8 @@ public interface DifuntoRepository extends JpaRepository<Difunto, Long> {
     
     List<Difunto> findByParcelaId(Long id);
 
+    List<Difunto> findByParcela_Concesion_Ciudadano_Id(Long id);
+
+    boolean existsByIdAndParcelaConcesionCiudadanoId(Long id, Long ciudadanoId);
+
 }

@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,11 +33,13 @@ public class TarifaController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('AYUNTAMIENTO') and @tarifaRepository.existsByIdAndCementerioAyuntamientoId(#id, principal.id))")
     public ResponseEntity<TarifaDTO> update(@PathVariable Long id, @Valid @RequestBody TarifaDTO tarifaDTO){
         return ResponseEntity.ok(tarifaService.update(id, tarifaDTO));
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('AYUNTAMIENTO') and @tarifaRepository.existsByIdAndCementerioAyuntamientoId(#id, principal.id))")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         tarifaService.delete(id);
         return ResponseEntity.noContent().build();

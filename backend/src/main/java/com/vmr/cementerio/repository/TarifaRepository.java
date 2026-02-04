@@ -9,5 +9,7 @@ import java.util.List;
 public interface TarifaRepository extends JpaRepository<Tarifa, Long> {
 
     List<Tarifa> findByCementerioId(Long id);
+
+    boolean existsByIdAndCementerioAyuntamientoId(Long id, Long ayuntamientoId);
     
 }

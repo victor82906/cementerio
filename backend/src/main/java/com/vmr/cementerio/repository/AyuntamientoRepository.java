@@ -11,6 +11,6 @@ public interface AyuntamientoRepository extends JpaRepository<Ayuntamiento, Long
 
     Optional<Ayuntamiento> findByEmail(String email);
 
-    List<Ayuntamiento> findByNombreContainingIgnoreCase(String nombre);
+    List<Ayuntamiento> findByNombreContainingIgnoreCaseOrEmailContainingIgnoreCase(String nombre, String email);
 
 }

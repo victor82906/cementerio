@@ -14,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import java.util.HashSet;
 import java.util.Set;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.CascadeType;
 
 @Entity
 @Getter
@@ -32,6 +33,10 @@ public class Zona {
 
     private String coordenadas;
 
+    private double precio;
+
+    private int capacidadParcelas;
+
     @ManyToOne
     @JoinColumn(name = "cementerio_id")
     private Cementerio cementerio;
@@ -40,7 +45,7 @@ public class Zona {
     @JoinColumn(name = "tipo_zona_id")
     private TipoZona tipoZona;
 
-    @OneToMany(mappedBy = "zona", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "zona", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Parcela> parcelas = new HashSet<>();
 
 

@@ -10,4 +10,10 @@ public interface ServicioRepository extends JpaRepository<Servicio, Long> {
     
     List<Servicio> findByParcelaId(Long id);
 
+    List<Servicio> findByParcela_Zona_Cementerio_Ayuntamiento_Id(Long id);
+
+    boolean existsByIdAndParcelaConcesionCiudadanoId(Long id, Long ciudadanoId);
+
+    boolean existsByIdAndParcelaZonaCementerioAyuntamientoId(Long id, Long ayuntamientoId);
+
 }

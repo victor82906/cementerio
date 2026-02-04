@@ -5,6 +5,8 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.RequiredArgsConstructor;
 import com.vmr.cementerio.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
+
 import java.util.List;
 import com.vmr.cementerio.mapper.UsuarioMapper;
 import com.vmr.cementerio.model.Usuario;
@@ -46,6 +48,7 @@ public class UsuarioServiceImpl implements UsuarioService{
     }
 
     @Override
+    @Transactional
     public String guardarFoto(Long id, MultipartFile archivo) throws IOException {
         // 1. Buscamos al usuario o lanzamos excepción si no existe
         Usuario usuario = usuarioRepository.findById(id)
@@ -86,6 +89,7 @@ public class UsuarioServiceImpl implements UsuarioService{
     }
 
     @Override
+    @Transactional
     public ResponseEntity<Map<String, String>> cambiarContrasena(Long id, CambiarContrasenaDTO cambiarContrasenaDTO){
         Usuario usuario = usuarioRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Usuario con ID " + id + " no encontrado"));

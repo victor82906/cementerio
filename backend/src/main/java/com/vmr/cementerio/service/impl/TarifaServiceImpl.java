@@ -10,6 +10,8 @@ import com.vmr.cementerio.model.Cementerio;
 import com.vmr.cementerio.model.Tarifa;
 import com.vmr.cementerio.dto.response.TarifaDTO;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
+
 import java.util.List;
 import com.vmr.cementerio.service.TarifaService;
 
@@ -34,6 +36,7 @@ public class TarifaServiceImpl implements TarifaService{
                 .orElseThrow(() -> new EntityNotFoundException("Tarifa no encontrada")));
     }
 
+    @Transactional
     public TarifaDTO save(Long cementerioId, TarifaDTO tarifaDTO){
         Cementerio cementerio = cementerioRepository.findById(cementerioId)
                 .orElseThrow(() -> new EntityNotFoundException("Cementerio no encontrado"));
@@ -43,14 +46,19 @@ public class TarifaServiceImpl implements TarifaService{
         return tarifaMapper.toDTO(tarifaRepository.save(tarifa));
     }
 
+    @Transactional
     public TarifaDTO update(Long id, TarifaDTO tarifaDTO){
         Tarifa tarifa = tarifaRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Tarifa no encontrada"));
 
+        Cementerio cementerio = tarifa.getCementerio();
         tarifa = tarifaMapper.toEntity(tarifaDTO);
-        return tarifaMapper.toDTO(tarifaRepository.save(tarifa));
+        tarifa.setCementerio(cementerio);
+        tarifaRepository.save(tarifa);
+        return tarifaMapper.toDTO(tarifa);
     }
 
+    @Transactional
     public void delete(Long id){
         if(tarifaRepository.existsById(id)){
             tarifaRepository.deleteById(id);

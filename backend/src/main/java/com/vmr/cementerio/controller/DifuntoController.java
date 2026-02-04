@@ -5,11 +5,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.vmr.cementerio.dto.response.DifuntoDTO;
+import com.vmr.cementerio.dto.response.FacturaDTO;
+import com.vmr.cementerio.dto.response.ParcelaDTO;
 import com.vmr.cementerio.service.DifuntoService;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -27,6 +30,7 @@ public class DifuntoController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('CIUDADANO') and @difuntoRepository.existsByIdAndParcelaConcesionCiudadanoId(#id, principal.id))")
     public ResponseEntity<DifuntoDTO> findById(@PathVariable Long id){
         return ResponseEntity.ok(difuntoService.findById(id));
     }
@@ -37,10 +41,15 @@ public class DifuntoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id){
-        difuntoService.delete(id);
-        return ResponseEntity.noContent().build();
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('CIUDADANO') and @difuntoRepository.existsByIdAndParcelaConcesionCiudadanoId(#id, principal.id))")
+    public ResponseEntity<FacturaDTO> delete(@PathVariable Long id){
+        return ResponseEntity.ok(difuntoService.delete(id));
     }
 
+    @GetMapping("/{id}/parcela")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('CIUDADANO') and @difuntoRepository.existsByIdAndParcelaConcesionCiudadanoId(#id, principal.id))")
+    public ResponseEntity<ParcelaDTO> getParcela(@PathVariable Long id){
+        return ResponseEntity.ok(difuntoService.getParcelaByDifuntoId(id));
+    }
 
 }

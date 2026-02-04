@@ -23,11 +23,11 @@ public class CementerioDTO {
 
     private String mapa;
 
-    @Min(value = 0, message = "El tiempo para la exumacion no puede ser negativo")
-    private int tiempoExumacion;
+    @Min(value = 1, message = "El tiempo para la exumacion no puede ser negativo")
+    private int tiempoExhumacion;
 
     private AyuntamientoReducidoDTO ayuntamiento;
 
-    private Set<ZonaDTO> zonas;
+    // private Set<ZonaDTO> zonas;
 
 }

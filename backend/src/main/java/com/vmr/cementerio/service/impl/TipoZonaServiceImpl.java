@@ -7,6 +7,8 @@ import com.vmr.cementerio.mapper.TipoZonaMapper;
 import com.vmr.cementerio.model.TipoZona;
 import com.vmr.cementerio.dto.response.TipoZonaDTO;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
+
 import java.util.List;
 import com.vmr.cementerio.service.TipoZonaService;
 
@@ -29,10 +31,12 @@ public class TipoZonaServiceImpl implements TipoZonaService{
                 .orElseThrow(() -> new EntityNotFoundException("Tipo de zona no encontrada")));
     }
 
+    @Transactional
     public TipoZonaDTO save(TipoZonaDTO tipoZonaDTO){
         return tipoZonaMapper.toDTO(tipoZonaRepository.save(tipoZonaMapper.toEntity(tipoZonaDTO)));
     }
 
+    @Transactional
     public TipoZonaDTO update(Long id, TipoZonaDTO tipoZonaDTO){
         TipoZona tipoZona = tipoZonaRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Tipo de zona no encontrada"));
@@ -41,6 +45,7 @@ public class TipoZonaServiceImpl implements TipoZonaService{
         return tipoZonaMapper.toDTO(tipoZonaRepository.save(tipoZona));
     }
 
+    @Transactional
     public void delete(Long id){
         if(tipoZonaRepository.existsById(id)){
             tipoZonaRepository.deleteById(id);

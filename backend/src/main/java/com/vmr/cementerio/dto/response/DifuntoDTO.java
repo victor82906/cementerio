@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -36,8 +35,6 @@ public class DifuntoDTO {
     @Past(message = "La fecha de fallecimiento debe ser anterior a hoy")
     private LocalDate fechaFallecimiento;
 
-    @NotNull(message = "La fecha de entierro es obligatoria")
-    @PastOrPresent(message = "La fecha de entierro debe ser hoy o anterior")
     private LocalDate fechaEntierro;
 
     private String foto;

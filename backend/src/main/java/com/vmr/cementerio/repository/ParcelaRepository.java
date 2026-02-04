@@ -10,4 +10,6 @@ public interface ParcelaRepository extends JpaRepository<Parcela, Long> {
     
     List<Parcela> findByZonaId(Long id);
 
+    boolean existsByIdAndZonaCementerioAyuntamientoId(Long id, Long ayuntamientoId);
+
 }

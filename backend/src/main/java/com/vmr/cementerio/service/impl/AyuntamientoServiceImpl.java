@@ -12,6 +12,7 @@ import com.vmr.cementerio.repository.AyuntamientoRepository;
 import com.vmr.cementerio.repository.RolRepository;
 import com.vmr.cementerio.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import com.vmr.cementerio.service.AyuntamientoService;
 import com.vmr.cementerio.dto.response.AyuntamientoEditDTO;
@@ -37,7 +38,7 @@ public class AyuntamientoServiceImpl implements AyuntamientoService{
     }
 
     public List<AyuntamientoDTO> buscaPorNombre(String nombre){
-        return ayuntamientoRepository.findByNombreContainingIgnoreCase(nombre)
+        return ayuntamientoRepository.findByNombreContainingIgnoreCaseOrEmailContainingIgnoreCase(nombre, nombre)
                 .stream()
                 .map(ayuntamientoMapper::toDTO)
                 .toList();
@@ -47,7 +48,8 @@ public class AyuntamientoServiceImpl implements AyuntamientoService{
         return ayuntamientoMapper.toDTO(ayuntamientoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Ayuntamiento no encontrado")));
     }
-
+    
+    @Transactional
     public AyuntamientoDTO save(AyuntamientoDTO ayuntamientoDTO){
         if(usuarioRepository.findByEmail(ayuntamientoDTO.getEmail()).isPresent()){
             throw new IllegalArgumentException("El correo electrónico ya está en uso.");
@@ -62,6 +64,7 @@ public class AyuntamientoServiceImpl implements AyuntamientoService{
         }
     }
 
+    @Transactional
     public AyuntamientoEditDTO update(Long id, AyuntamientoEditDTO ayuntamientoDTO){
         Ayuntamiento ayuntamiento = ayuntamientoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Ayuntamiento no encontrado"));
@@ -71,6 +74,7 @@ public class AyuntamientoServiceImpl implements AyuntamientoService{
     }
 
 
+    @Transactional
     public void delete(Long id){
         if(ayuntamientoRepository.existsById(id)){
             ayuntamientoRepository.deleteById(id);

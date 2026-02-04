@@ -3,6 +3,7 @@ package com.vmr.cementerio.controller;
 import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -62,6 +63,7 @@ public class CementerioController {
     }
 
     @PostMapping("/{id}/tarifa")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('AYUNTAMIENTO') and @cementerioRepository.existsByIdAndAyuntamientoId(#id, principal.id))")
     public ResponseEntity<TarifaDTO> saveTarifa(@PathVariable Long id, @Valid @RequestBody TarifaDTO tarifaDTO){
         return ResponseEntity.status(HttpStatus.CREATED).body(tarifaService.save(id, tarifaDTO));
     }
@@ -75,8 +77,5 @@ public class CementerioController {
     public ResponseEntity<ZonaDTO> saveZona(@PathVariable Long id, @Valid @RequestBody ZonaDTO zonaDTO){
         return ResponseEntity.status(HttpStatus.CREATED).body(zonaService.save(id, zonaDTO));
     }
-
-
-
 
 }

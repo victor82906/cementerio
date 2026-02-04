@@ -1,0 +1,7 @@
+<h2>Redsys MOCK</h2>
+<p>Importe: <span th:text="${monto}"></span> €</p>
+<form method="post" action="/mock-redsys/result">
+ <input type="hidden" name="orderId" th:value="${id}" />
+ <button name="responseCode" value="0000">HE PAGAO BIEN</button>
+ <button name="responseCode" value="9999">HE PAGAO MAL</button>
+</form>

@@ -26,6 +26,8 @@ public class Servicio {
 
     private LocalDate fecha;
 
+    private boolean realizado;
+
     @ManyToOne
     @JoinColumn(name = "tipo_servicio_id")
     private TipoServicio tipoServicio;

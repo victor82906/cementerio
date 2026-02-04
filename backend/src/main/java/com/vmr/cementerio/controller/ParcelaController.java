@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +22,9 @@ import com.vmr.cementerio.service.DifuntoService;
 import com.vmr.cementerio.service.ParcelaService;
 import com.vmr.cementerio.service.ServicioService;
 import com.vmr.cementerio.dto.response.ConcesionDTO;
+import com.vmr.cementerio.dto.response.AyuntamientoDTO;
+import com.vmr.cementerio.dto.response.FacturaDTO;
+import com.vmr.cementerio.dto.response.ZonaDTO;
 
 @RestController
 @RequiredArgsConstructor
@@ -54,33 +58,51 @@ public class ParcelaController {
     }
 
     @GetMapping("/{id}/difunto")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('CIUDADANO') and @concesionRepository.existsByParcelaIdAndCiudadanoId(#id, principal.id))")
     public ResponseEntity<List<DifuntoDTO>> getDifuntos(@PathVariable Long id){
         return ResponseEntity.ok(difuntoService.findByParcelaId(id));
     }
 
     @PostMapping("/{id}/difunto")
-    public ResponseEntity<DifuntoDTO> saveDifunto(@PathVariable Long id, @Valid @RequestBody DifuntoDTO difuntoDTO){
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('CIUDADANO') and @concesionRepository.existsByParcelaIdAndCiudadanoId(#id, principal.id))")
+    public ResponseEntity<FacturaDTO> saveDifunto(@PathVariable Long id, @Valid @RequestBody DifuntoDTO difuntoDTO){
         return ResponseEntity.status(HttpStatus.CREATED).body(difuntoService.save(id, difuntoDTO));
     }
 
     @GetMapping("/{id}/servicio")
+    @PreAuthorize("hasRole('ADMIN') or " +
+                  "(hasRole('CIUDADANO') and @concesionRepository.existsByParcelaIdAndCiudadanoId(#id, principal.id)) or " +
+                  "(hasRole('AYUNTAMIENTO') and @parcelaRepository.existsByIdAndZonaCementerioAyuntamientoId(#id, principal.id))")
     public ResponseEntity<List<ServicioDTO>> getServicios(@PathVariable Long id){
         return ResponseEntity.ok(servicioService.findByParcelaId(id));
     }
 
     @PostMapping("/{id}/servicio")
-    public ResponseEntity<ServicioDTO> saveServicio(@PathVariable Long id, @Valid @RequestBody ServicioDTO servicioDTO){
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('CIUDADANO') and @concesionRepository.existsByParcelaIdAndCiudadanoId(#id, principal.id))")
+    public ResponseEntity<FacturaDTO> saveServicio(@PathVariable Long id, @Valid @RequestBody ServicioDTO servicioDTO){
         return ResponseEntity.status(HttpStatus.CREATED).body(servicioService.save(id, servicioDTO));
     }    
 
     @GetMapping("/{id}/concesion")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('CIUDADANO') and @concesionRepository.existsByParcelaIdAndCiudadanoId(#id, principal.id))")
     public ResponseEntity<ConcesionDTO> getConcesion(@PathVariable Long id){
         return ResponseEntity.ok(concesionService.findByParcelaId(id));
     }
 
     @PostMapping("/{id}/concesion")
-    public ResponseEntity<ConcesionDTO> saveConcesion(@PathVariable Long id, @Valid @RequestBody ConcesionDTO concesionDTO){
+    @PreAuthorize("hasAnyRole('ADMIN', 'CIUDADANO')")
+    public ResponseEntity<FacturaDTO> saveConcesion(@PathVariable Long id, @Valid @RequestBody ConcesionDTO concesionDTO){
         return ResponseEntity.status(HttpStatus.CREATED).body(concesionService.save(id, concesionDTO));
+    }
+
+    @GetMapping("/{id}/ayuntamiento") 
+    public ResponseEntity<AyuntamientoDTO> getAyuntamiento(@PathVariable Long id){
+        return ResponseEntity.ok(parcelaService.findAyuntamientoByParcelaId(id));
+    }
+
+    @GetMapping("/{id}/zona")
+    public ResponseEntity<ZonaDTO> getZona(@PathVariable Long id){
+        return ResponseEntity.ok(parcelaService.findZonaByParcelaId(id));
     }
 
 }

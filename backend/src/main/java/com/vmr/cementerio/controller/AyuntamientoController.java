@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,9 +18,14 @@ import com.vmr.cementerio.dto.response.AyuntamientoDTO;
 import java.util.List;
 import jakarta.validation.Valid;
 import com.vmr.cementerio.dto.response.CementerioDTO;
+import com.vmr.cementerio.dto.response.ServicioDTO;
 import com.vmr.cementerio.service.AyuntamientoService;
 import com.vmr.cementerio.service.CementerioService;
 import com.vmr.cementerio.dto.response.AyuntamientoEditDTO;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
+import com.vmr.cementerio.service.ServicioService;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -28,6 +34,7 @@ public class AyuntamientoController {
     
     private final AyuntamientoService ayuntamientoService;
     private final CementerioService cementerioService;
+    private final ServicioService servicioService;
 
     @GetMapping
     public ResponseEntity<List<AyuntamientoDTO>> getAll(@RequestParam(required = false) String nombre){
@@ -69,9 +76,16 @@ public class AyuntamientoController {
     
     @PostMapping("/{id}/cementerio")
     @PreAuthorize("hasRole('ADMIN') or (hasRole('AYUNTAMIENTO') and #id == principal.id)")
-    public ResponseEntity<CementerioDTO> saveCementerio(@PathVariable Long id, @Valid @RequestBody CementerioDTO cementerioDTO){
-        return ResponseEntity.status(HttpStatus.CREATED).body(cementerioService.save(id, cementerioDTO));
+    public ResponseEntity<CementerioDTO> saveCementerio(@PathVariable Long id, 
+                                                        @RequestPart("datos") @Valid CementerioDTO cementerioDTO,
+                                                        @RequestPart("foto") MultipartFile foto) throws IOException {
+        return ResponseEntity.status(HttpStatus.CREATED).body(cementerioService.save(id, cementerioDTO, foto));
     }
 
+    @GetMapping("/{id}/servicio")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('AYUNTAMIENTO') and #id == principal.id)")
+    public ResponseEntity<List<ServicioDTO>> getServicios(@PathVariable Long id){
+        return ResponseEntity.ok(servicioService.getServiciosByAyuntamientoId(id));
+    }
 
 }

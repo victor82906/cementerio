@@ -33,7 +33,7 @@ public class Cementerio {
 
     private String mapa;
 
-    private int tiempoExumacion;
+    private int tiempoExhumacion;
 
     @ManyToOne
     @JoinColumn(name = "ayuntamiento_id")

@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +18,7 @@ import java.util.List;
 import com.vmr.cementerio.dto.response.ParcelaDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
+import com.vmr.cementerio.dto.response.CementerioDTO;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,11 +39,13 @@ public class ZonaController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('AYUNTAMIENTO') and @zonaRepository.existsByIdAndCementerioAyuntamientoId(#id, principal.id))")
     public ResponseEntity<ZonaDTO> update(@PathVariable Long id, @Valid @RequestBody ZonaDTO zonaDTO){
         return ResponseEntity.ok(zonaService.update(id, zonaDTO));
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('AYUNTAMIENTO') and @zonaRepository.existsByIdAndCementerioAyuntamientoId(#id, principal.id))")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         zonaService.delete(id);
         return ResponseEntity.noContent().build();
@@ -53,8 +57,14 @@ public class ZonaController {
     }
 
     @PostMapping("/{id}/parcela")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('AYUNTAMIENTO') and @zonaRepository.existsByIdAndCementerioAyuntamientoId(#id, principal.id))")
     public ResponseEntity<ParcelaDTO> saveParcela(@PathVariable Long id, @Valid @RequestBody ParcelaDTO parcelaDTO){
         return ResponseEntity.status(HttpStatus.CREATED).body(parcelaService.save(id, parcelaDTO));
+    }
+
+    @GetMapping("/{id}/cementerio")
+    public ResponseEntity<CementerioDTO> getCementerio(@PathVariable Long id){
+        return ResponseEntity.ok(zonaService.findCementerioByZonaId(id));
     }
 
 }

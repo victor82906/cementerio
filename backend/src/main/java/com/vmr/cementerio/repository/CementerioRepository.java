@@ -12,4 +12,6 @@ public interface CementerioRepository extends JpaRepository<Cementerio, Long>{
 
     List<Cementerio> findByAyuntamientoId(Long id);
 
+    boolean existsByIdAndAyuntamientoId(Long id, Long ayuntamientoId);
+
 }

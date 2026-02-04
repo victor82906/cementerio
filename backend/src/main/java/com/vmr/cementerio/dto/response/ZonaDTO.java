@@ -20,8 +20,14 @@ public class ZonaDTO {
     @NotBlank(message = "Las coordenadas son obligatorias")
     private String coordenadas;
 
+    @Min(value = 1, message = "El precio no puede ser menor a 1")
+    private double precio;
+
+    @Min(value = 1, message = "La capacidad tiene que ser de 1 difunto o superior")
+    private int capacidadParcelas;
+
     private TipoZonaDTO tipoZona;
 
-    private Set<Parcela> parcelas;
+    // private Set<Parcela> parcelas;
     
 }
