@@ -10,10 +10,11 @@ import { ZonaService } from '../../services/zona-service';
 import { ModalConfirmar } from '../modal-confirmar/modal-confirmar';
 import { Router } from '@angular/router';
 import { Ciudadano } from '../ciudadano/ciudadano';
+import { ModalError } from '../modal-error/modal-error';
 
 @Component({
   selector: 'app-parcelas-ciudadano',
-  imports: [Cabecera, Footer, Cargando, RouterLink, ModalConfirmar],
+  imports: [Cabecera, Footer, Cargando, RouterLink, ModalConfirmar, ModalError],
   templateUrl: './parcelas-ciudadano.html',
   styleUrl: './parcelas-ciudadano.css',
 })
@@ -23,6 +24,7 @@ export class ParcelasCiudadano {
   cargando: boolean = false;
   idCiudadano: number = 0;
   @ViewChild("modalConfirmar") modalConfirmar!: ModalConfirmar;
+  @ViewChild("modalError") modalError!: ModalError;
   idConcesionABorrar: number | null = null;
 
   constructor(private route: ActivatedRoute, private concesionService: ConcesionService, private cdr: ChangeDetectorRef, private parcelaService: ParcelaService, private zonaService: ZonaService, private router: Router) { }
@@ -53,6 +55,10 @@ export class ParcelasCiudadano {
   }
 
   cargaZonaCementerio(){
+    if(this.concesiones.length == 0){
+      this.cargando = false;
+      this.cdr.markForCheck();
+    }
     this.concesiones.forEach(concesion => {
       this.parcelaService.getZona(concesion.parcela.id).subscribe({
         next: (zona) => {
@@ -92,6 +98,7 @@ export class ParcelasCiudadano {
     if(this.idConcesionABorrar !== null){
       this.concesionService.borrar(this.idConcesionABorrar).subscribe({
         next: (response) => {
+          this.modalError.abrirModal("Exito", "Concesion dada de baja, se procedera a la exhumacion de sus difuntos.", false);
           this.cargarConcesiones();
         },
         error: (err) => {

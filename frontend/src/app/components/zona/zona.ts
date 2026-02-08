@@ -5,6 +5,7 @@ import { ParcelaService } from '../../services/parcela-service';
 import { ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth-service';
+import { ConcesionService } from '../../services/concesion-service';
 declare var bootstrap: any;
 
 @Component({
@@ -20,9 +21,11 @@ export class Zona {
 
   zona: any;
   parcelas: any[] = [];
+  parcelasLibres: any[] = [];
+  concesionesCiudadano: any[] = [];
   cargando: boolean = false;
 
-  constructor(private auth: AuthService, private zonaService: ZonaService, private parcelaService: ParcelaService, private cdr: ChangeDetectorRef, private router: Router) { }
+  constructor(private auth: AuthService, private zonaService: ZonaService, private parcelaService: ParcelaService, private cdr: ChangeDetectorRef, private router: Router, private concesionService: ConcesionService) { }
 
   abrir(idZona: number) {
     if (!this.modalInstance) {
@@ -31,9 +34,24 @@ export class Zona {
 
     this.zona = null; 
     this.parcelas = [];
+    this.parcelasLibres = [];
+    this.concesionesCiudadano = [];
     this.cargando = true;
 
     this.modalInstance.show();
+
+    if(this.auth.getRol() == 'CIUDADANO'){
+      this.concesionService.getConcesionesCiudadano(this.auth.getId()).subscribe({
+        next: (response) => {
+          this.concesionesCiudadano = response;
+          this.cdr.markForCheck();
+          console.log(this.concesionesCiudadano);
+        },
+        error: (err) => {
+          console.error(err);
+        }
+      });
+    }
 
     this.cargando = true;
     this.zonaService.getZona(idZona).subscribe({
@@ -42,13 +60,21 @@ export class Zona {
         this.parcelaService.getParcelasZona(this.zona.id).subscribe({
           next: (response) => {
             this.parcelas = response;
-            this.cargando = false;
-            this.cdr.markForCheck();
+            this.parcelaService.getParcelasLibresZona(this.zona.id).subscribe({
+              next: (response) => {
+                this.parcelasLibres = response;
+                this.cargando = false;
+                this.cdr.markForCheck();
+              },
+              error: (err) => {
+                console.error(err);
+                this.cargando = false;
+              }
+            });
           },
           error: (err) => {
             console.error(err);
             this.cargando = false;
-
           }
         });
       },
@@ -63,12 +89,28 @@ export class Zona {
     this.modalInstance.hide();
   }
 
+  esLibre(parcelaId: number): boolean {
+    return this.parcelasLibres.some(p => p.id === parcelaId);
+  }
+
+  esMia(parcelaId: number): boolean {
+    return this.concesionesCiudadano.some(c => c.parcela.id === parcelaId);
+  }
+
   clickParcela(parcela: any) {
-    this.modalInstance.hide();
-    if (this.auth.getRol() !== 'CIUDADANO') {
-      this.router.navigate(['/registro-ciudadano']);
-    } else {
-      this.router.navigate(['/comprar-concesion'], { queryParams: { parcelaId: parcela.id, zonaId: this.zona.id } });
+
+    if (this.esMia(parcela.id)) {
+        this.modalInstance.hide();
+        this.router.navigate(['/comprar-servicio'], { queryParams: { parcelaId: parcela.id } });
+    } else if (this.esLibre(parcela.id)) {
+        this.modalInstance.hide();
+        if (this.auth.getRol() !== 'CIUDADANO' && this.auth.getRol() !== 'AYUNTAMIENTO' && this.auth.getRol() !== 'ADMIN'){
+            this.modalInstance.hide();
+            this.router.navigate(['/registro-ciudadano']);
+        } else if(this.auth.getRol() === 'CIUDADANO') {
+            this.modalInstance.hide();
+            this.router.navigate(['/comprar-concesion'], { queryParams: { parcelaId: parcela.id, zonaId: this.zona.id } });
+        }
     }
   }
 

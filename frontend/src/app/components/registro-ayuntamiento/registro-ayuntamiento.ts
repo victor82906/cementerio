@@ -48,7 +48,7 @@ export class RegistroAyuntamiento implements OnInit{
       this.ayuntamientoService.registrarAyuntamiento(ayuntamiento).subscribe({
         next: (response) => {
           console.log(response);
-          this.modalError.abrirModal("Exito", "El ciudadano se ha registrado correctamente", false);
+          this.modalError.abrirModal("Exito", "El ayuntamiento se ha registrado correctamente", false);
           this.registroAyto.reset();
         },
         error: (err) => {

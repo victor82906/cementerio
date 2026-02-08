@@ -1,0 +1,8 @@
+
+<audio #audioPlayer loop>
+    <source src="MusicaHome.mp3" type="audio/mp3">
+</audio>
+
+<button class="btn-music shadow-lg" (click)="toggleMusic()">
+    <i class="bi" [ngClass]="reproduciendo ? 'bi-volume-up-fill' : 'bi-volume-mute-fill'"></i>
+</button>

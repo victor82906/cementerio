@@ -6,6 +6,8 @@ import { Router, RouterLink } from '@angular/router';
 import { CiudadanoService } from '../../services/ciudadano-service';
 import { ModalError } from "../modal-error/modal-error";
 import { ViewChild } from '@angular/core';
+import { AuthService } from '../../services/auth-service';
+import { LoginService } from '../../services/login';
 
 @Component({
   selector: 'app-registro-ciudadano',
@@ -13,12 +15,12 @@ import { ViewChild } from '@angular/core';
   templateUrl: './registro-ciudadano.html',
   styleUrl: './registro-ciudadano.css',
 })
-export class RegistroCiudadano implements OnInit{
+export class RegistroCiudadano implements OnInit {
   registroCiudadano!: FormGroup;
   @ViewChild("modalError") modalError!: ModalError;
   verContrasena: boolean = false;
 
-  constructor(private ciudadanoService: CiudadanoService, private router: Router) {}
+  constructor(private ciudadanoService: CiudadanoService, private router: Router, private auth: AuthService, private login: LoginService) { }
 
   ngOnInit(): void {
     this.registroCiudadano = new FormGroup({
@@ -35,7 +37,7 @@ export class RegistroCiudadano implements OnInit{
     });
   }
 
-  registrar(){
+  registrar() {
     if (this.registroCiudadano.valid) {
       const ciudadano = this.registroCiudadano.value;
       ciudadano.dni = ciudadano.dni.toUpperCase();
@@ -44,7 +46,25 @@ export class RegistroCiudadano implements OnInit{
       this.ciudadanoService.registrarCiudadano(ciudadano).subscribe({
         next: (response) => {
           console.log(response);
-          this.modalError.abrirModal("Exito", "El ciudadano se ha registrado correctamente", false);
+            if (this.auth.getRol() !== 'ADMIN' && this.auth.getRol() !== 'AYUNTAMIENTO') {
+            const loginForm = {
+              email: ciudadano.email,
+              contrasena: ciudadano.contrasena
+            };
+            this.login.getTokenFromServer(loginForm).subscribe({
+              next: (respuesta) => {
+                const token = respuesta.token;
+                this.login.setToken(token);
+                this.guardarUsuario();
+              },
+              error: (err) => {
+                this.modalError.abrirModal("Error", err.error, true);
+                console.error(err);
+              }
+            });
+          }else {
+            this.modalError.abrirModal("Exito", "El ciudadano se ha registrado correctamente", false);
+          }
           this.registroCiudadano.reset();
         },
         error: (err) => {
@@ -52,13 +72,26 @@ export class RegistroCiudadano implements OnInit{
           console.error(err);
         }
       });
-    }else{
+    } else {
       this.registroCiudadano.markAllAsTouched();
     }
+  }
+
+  guardarUsuario() {
+    this.login.getUsuarioFromServer(this.auth.getToken() || '').subscribe({
+      next: (respuesta) => {
+        this.login.setUsuario(respuesta);
+        this.router.navigate(['/home']);
+      },
+      error: (err) => {
+        this.modalError.abrirModal("Error", err.error, true);
+        console.error(err);
+      }
+    });
   }
 
   toggleContrasena() {
     this.verContrasena = !this.verContrasena;
   }
-  
+
 }

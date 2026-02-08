@@ -2,12 +2,13 @@
 
 <header class="hero-section text-white text-center py-5">
     <div class="container py-5">
-        <h1 class="display-4 fw-bold">Un lugar en el cielo</h1>
-        <p class="lead mb-4">Encuentre y gestione espacios de descanso con la dignidad que merecen.</p>
+        <h1 class="display-4 fw-bold animate-enter fade-down">Un lugar en el cielo</h1>
+        
+        <p class="lead mb-4 animate-enter fade-in delay-1">Encuentre y gestione espacios de descanso con la dignidad que merecen.</p>
 
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="input-group input-group-lg shadow">
+                <div class="input-group input-group-lg shadow animate-enter fade-up delay-2">
                     <input type="text" class="form-control"
                         placeholder="Buscar cementerio por nombre o ayuntamiento..." [(ngModel)]="busqueda">
                     <button class="btn btn-primary-custom" type="button" (click)="buscar()">Buscar</button>
@@ -20,28 +21,46 @@
 <section class="py-5 bg-light">
     <div class="container">
         <div class="row g-4 text-center">
-            <div class="col-md-4">
+            
+            <div class="col-md-4 animate-enter fade-up delay-3">
                 <div class="card h-100 border-0 shadow-sm p-4">
                     <div class="display-4 mb-3"><img src="paloma.png" alt="Icono" width="50"></div>
                     <h3 class="h5 fw-bold">Encuentre un lugar de paz</h3>
-                    <p class="text-muted">Localice la ubicación exacta de sus seres queridos de forma rápida y
-                        respetuosa.</p>
+                    <p class="text-muted">Localice la ubicación exacta de sus seres queridos de forma rápida y respetuosa.</p>
                 </div>
             </div>
-            <div class="col-md-4">
+
+            <div class="col-md-4 animate-enter fade-up delay-4">
                 <div class="card h-100 border-0 shadow-sm p-4">
                     <div class="display-4 mb-3"><img src="ramo-de-flores.png" alt="Icono" width="50"></div>
                     <h3 class="h5 fw-bold">Gestión Online</h3>
-                    <p class="text-muted">Gestione los servicios de lápidas, mantenimientos y flores desde cualquier
-                        lugar.</p>
+                    <p class="text-muted">Gestione los servicios de lápidas, mantenimientos y flores desde cualquier lugar.</p>
                 </div>
             </div>
-            <div class="col-md-4">
+
+            <div class="col-md-4 animate-enter fade-up delay-5">
                 <div class="card h-100 border-0 shadow-sm p-4">
                     <div class="display-4 mb-3"><img src="lapida.png" alt="Icono" width="50"></div>
                     <h3 class="h5 fw-bold">Administración Pública</h3>
-                    <p class="text-muted">Herramientas avanzadas para que Ayuntamientos controlen sus cementerios con
-                        eficiencia.</p>
+                    <p class="text-muted">Herramientas avanzadas para que Ayuntamientos controlen sus cementerios con eficiencia.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="ratio ratio-16x9 shadow-lg rounded-4 overflow-hidden animate-enter fade-up delay-2 border border-secondary">
+                    
+                    <video controls class="object-fit-cover">
+                        <source src="Video_trazabilidad_no_audio.mp4" type="video/mp4">
+                        Tu navegador no soporta la reproducción de video.
+                    </video>
+
                 </div>
             </div>
         </div>
@@ -50,7 +69,7 @@
 
 <section class="py-5 text-white bg-dark-custom">
     <div class="container">
-        <div class="row align-items-center">
+        <div class="row align-items-center animate-enter fade-in delay-2">
             <div class="col-lg-6">
                 <h2 class="fw-bold">¿Representa a un Ayuntamiento?</h2>
                 <p>Digitalice sus registros, optimice el espacio y ofrezca un mejor servicio a sus ciudadanos.</p>
@@ -64,5 +83,7 @@
         </div>
     </div>
 </section>
+
+<app-audio-home></app-audio-home>
 
 <app-footer></app-footer>

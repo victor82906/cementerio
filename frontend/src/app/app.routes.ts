@@ -25,6 +25,7 @@ import { ParcelasCiudadano } from './components/parcelas-ciudadano/parcelas-ciud
 import { ComprarServicio } from './components/comprar-servicio/comprar-servicio';
 import { DifuntosCiudadano } from './components/difuntos-ciudadano/difuntos-ciudadano';
 import { ServiciosAyuntamiento } from './components/servicios-ayuntamiento/servicios-ayuntamiento';
+import { Facturas } from './components/facturas/facturas';
 
 export const routes: Routes = [
     { path: 'login', component: Login },
@@ -52,6 +53,7 @@ export const routes: Routes = [
     { path: 'comprar-servicio', component: ComprarServicio, canActivate: [rolGuard], data: {roles:['ADMIN', 'CIUDADANO']}},
     { path: 'difuntos-ciudadano', component: DifuntosCiudadano, canActivate: [rolGuard], data: {roles:['ADMIN', 'CIUDADANO']}},
     { path: 'servicios-ayuntamiento', component: ServiciosAyuntamiento, canActivate: [rolGuard], data: {roles:['ADMIN', 'AYUNTAMIENTO']}},
+    { path: 'facturas', component: Facturas, canActivate: [rolGuard], data: {roles:['CIUDADANO', 'AYUNTAMIENTO']}},
 
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: '**', redirectTo: 'home' }

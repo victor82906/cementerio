@@ -65,9 +65,6 @@
                             {{ tarifaSeleccionada.tipoServicio.descripcion }}
                         </small>
                         }
-                        <!-- @if(tarifaSeleccionada.invalid && tarifaSeleccionada.touched) {
-                                <small class="text-danger fw-bold d-block">Seleccione una tarifa</small>
-                            } -->
                     </div>
                 </div>
             </div>
@@ -93,7 +90,7 @@
             </div>
         </div>
 
-        @if(esInhumacion()){
+        @if(esExhumacion()){
         <div
             class="alert alert-warning bg-opacity-10 border-warning text-warning mt-4 animate-fade-in d-flex align-items-center">
             <i class="bi bi-exclamation-triangle-fill me-3 fs-4"></i>
@@ -102,7 +99,7 @@
         </div>
         }
 
-        @if(esExhumacion()) {
+        @if(esInhumacion()) {
         <div class="mt-4 pt-4 border-top border-secondary animate-fade-in">
             <h6 class="text-white fw-bold mb-3"><i class="bi bi-person-lines-fill me-2 text-primary-custom"></i>Datos
                 del Difunto</h6>
@@ -228,9 +225,9 @@
                                 title="Ver Cementerio">
                                 <i class="bi bi-eye"></i> VER CEMENTERIO
                             </button>
-                            <button (click)="inhumarDifunto(difunto.id)" class="btn btn-outline-danger btn-sm fw-bold"
+                            <button (click)="exhumarDifunto(difunto.id)" class="btn btn-outline-danger btn-sm fw-bold"
                                 title="Inhumar / Borrar">
-                                <i class="bi bi-trash-fill me-1"></i> INHUMAR
+                                <i class="bi bi-trash-fill me-1"></i> EXHUMAR
                             </button>
                         </div>
                     </div>

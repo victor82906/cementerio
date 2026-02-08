@@ -116,7 +116,7 @@
         </form>
     </div>
 
-    <h3 class="text-white fw-bold text-uppercase italic mb-4 animate-fade-in">Zonas Configuradas</h3>
+    <h3 class="text-custom fw-bold text-uppercase italic mb-4 animate-fade-in">Zonas Configuradas</h3>
 
     <div class="row g-3 animate-fade-in">
         @for (zona of zonas; track zona.id) {
@@ -125,8 +125,8 @@
                 <div class="row align-items-center">
 
                     <div class="col-md-2">
-                        <h5 class="fw-bold text-primary-custom mb-0 text-truncate" [title]="zona.tipoZona?.nombre">
-                            {{ zona.tipoZona?.nombre || 'Zona ' + zona.id }}
+                        <h5 class="fw-bold text-primary-custom mb-0 text-truncate">
+                            {{ zona.tipoZona.nombre }}
                         </h5>
                     </div>
 

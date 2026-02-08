@@ -19,6 +19,7 @@ import { Validators } from '@angular/forms';
 import { Validaciones } from '../../validators/validaciones';
 import { Router } from '@angular/router';
 import { ServicioService } from '../../services/servicio-service';
+import { FacturaService } from '../../services/factura-service';
 
 @Component({
   selector: 'app-comprar-servicio',
@@ -41,7 +42,7 @@ export class ComprarServicio {
   idDifuntoABorrar: number | null = null;
   cargando: boolean = false;
 
-  constructor(private router: Router, private route: ActivatedRoute, private difuntoService: DifuntoService, private cdr: ChangeDetectorRef, private tarifaService: TarifaService, private parcelaService: ParcelaService, private zonaService: ZonaService, private servicioService: ServicioService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private difuntoService: DifuntoService, private cdr: ChangeDetectorRef, private tarifaService: TarifaService, private parcelaService: ParcelaService, private zonaService: ZonaService, private servicioService: ServicioService, private facturaService: FacturaService) { }
 
   ngOnInit(): void {
     this.registroDifunto = new FormGroup({
@@ -123,7 +124,7 @@ export class ComprarServicio {
     });
   }
 
-  inhumarDifunto(difuntoId: number) {
+  exhumarDifunto(difuntoId: number) {
     this.idDifuntoABorrar = difuntoId;
     this.modalConfirmar.abrir();
   }
@@ -132,6 +133,7 @@ export class ComprarServicio {
     if (this.idDifuntoABorrar !== null) {
       this.difuntoService.borrar(this.idDifuntoABorrar).subscribe({
         next: (response) => {
+          this.facturaService.descargaFactura(response.id);
           this.cargarDatos();
           this.idDifuntoABorrar = null;
         },
@@ -143,9 +145,9 @@ export class ComprarServicio {
   }
 
   pagarServicio() {
-    if (this.esExhumacion()) {
+    if (this.esInhumacion()) {
       this.guardarDifunto();
-    } else if (this.esInhumacion()) {
+    } else if (this.esExhumacion()) {
       return;
     } else {
       this.pagar();
@@ -170,6 +172,7 @@ export class ComprarServicio {
       difunto.dni = difunto.dni.toUpperCase();
       this.difuntoService.guardarDifunto(this.idParcela, difunto).subscribe({
         next: (response) => {
+          this.facturaService.descargaFactura(response.id);
           this.modalError.abrirModal("Exito", "Difunto registrado correctamente", false);
           this.registroDifunto.reset();
           this.cargarDatos();
@@ -190,6 +193,7 @@ export class ComprarServicio {
     };
     this.servicioService.pagarServicio(this.idParcela, servicio).subscribe({
       next: (response) => {
+        this.facturaService.descargaFactura(response.id);
         this.modalError.abrirModal("Exito", "Servicio pagado correctamente", false);
         this.cargarDatos();
       },

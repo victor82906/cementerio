@@ -45,6 +45,10 @@ export class DifuntosCiudadano {
   }
 
   cargaParcelas() {
+    if(this.difuntos.length == 0){
+      this.cargando = false;
+      this.cdr.markForCheck();
+    }
     this.difuntos.forEach(difunto => {
       this.difuntoService.getParcelaDifunto(difunto.id).subscribe({
         next: (parcela) => {

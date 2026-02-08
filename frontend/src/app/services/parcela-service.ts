@@ -20,6 +20,10 @@ export class ParcelaService {
     return this.http.get(this.apiZona + '/' + idZona + '/parcela');
   }
 
+  getParcelasLibresZona(idZona: number): Observable<any> {
+    return this.http.get(this.apiZona + '/' + idZona + '/parcela/libre');
+  }
+
   getAyuntamiento(idParcela: number): Observable<any> {
     return this.http.get(this.apiUrl + '/' + idParcela + '/ayuntamiento');
   }

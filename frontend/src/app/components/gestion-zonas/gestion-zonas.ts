@@ -117,6 +117,7 @@ export class GestionZonas {
         },
         error: (err) => {
           console.error(err);
+          this.modalError.abrirModal("Error", err.error, true);
         }
       });
     }

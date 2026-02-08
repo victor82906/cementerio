@@ -34,4 +34,9 @@ export class ServicioService {
     return this.http.put(this.urlServicio + '/' + idServicio + '/realizado', null);
   }
 
+  borrarTipoServicio(idTipoServicio: number): Observable<any> {
+    return this.http.delete(this.urlTipoServicio + '/' + idTipoServicio);
+  }
+
+
 }

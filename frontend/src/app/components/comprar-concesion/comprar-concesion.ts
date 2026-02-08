@@ -11,6 +11,7 @@ import { Cabecera } from '../cabecera/cabecera';
 import { Footer } from '../footer/footer';
 import { ChangeDetectorRef } from '@angular/core';
 import { Cargando } from '../cargando/cargando';
+import { FacturaService } from '../../services/factura-service';
 
 
 @Component({
@@ -30,7 +31,7 @@ export class ComprarConcesion {
   @ViewChild('modalError') modalError!: ModalError;
   cargando: boolean = false;
 
-  constructor(private cdr: ChangeDetectorRef, private route: ActivatedRoute, private auth: AuthService, private zonaService: ZonaService, private parcelaService: ParcelaService, private pagoService: PagoService, private concesionService: ConcesionService) { }
+  constructor(private cdr: ChangeDetectorRef, private route: ActivatedRoute, private auth: AuthService, private zonaService: ZonaService, private parcelaService: ParcelaService, private pagoService: PagoService, private concesionService: ConcesionService, private facturaService: FacturaService) { }
 
   ngOnInit(): void {
     let zonaId = 0;
@@ -88,11 +89,12 @@ export class ComprarConcesion {
     }
     this.concesionService.guardarConcesion(this.parcela.id, concesion).subscribe({
       next: (response) => {
+        this.facturaService.descargaFactura(response.id);
         this.factura = response;
         console.log(this.factura);
         this.pagoExitoso = true;
         this.modalError.abrirModal("Exito", "Concesion creada correctamente, descargue su factura", false);
-
+        
       },
       error: (err) => {
         console.error(err);
@@ -100,6 +102,22 @@ export class ComprarConcesion {
         this.modalError.abrirModal("Error", err.error, true);
       }
     });
+  }
+
+  esCripta(){
+    return this.zona.tipoZona.nombre == "CRIPTA";
+  }
+
+  numParcelas(): number{
+    return this.zona.columnas * this.zona.filas;
+  }
+
+  capacidadZona(): number{
+    return this.numParcelas() * this.zona.capacidadParcelas;
+  }
+
+  precioCripta(): number{
+    return this.numParcelas() * this.zona.precio;
   }
 
 }

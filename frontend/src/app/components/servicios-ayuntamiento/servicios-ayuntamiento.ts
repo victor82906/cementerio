@@ -9,10 +9,11 @@ import { ParcelaService } from '../../services/parcela-service';
 import { ZonaService } from '../../services/zona-service';
 import { ModalError } from '../modal-error/modal-error';
 import { ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-servicios-ayuntamiento',
-  imports: [Cabecera, Footer, Cargando, ModalError],
+  imports: [Cabecera, Footer, Cargando, ModalError, CommonModule],
   templateUrl: './servicios-ayuntamiento.html',
   styleUrl: './servicios-ayuntamiento.css',
 })
@@ -53,6 +54,10 @@ export class ServiciosAyuntamiento {
   }
 
   cargaZonaCementerio() {
+    if(this.servicios.length == 0){
+      this.cargando = false;
+      this.cdr.markForCheck();
+    }
     this.servicios.forEach(servicio => {
       if(servicio.realizado){
         this.serviciosRealizados.push(servicio);

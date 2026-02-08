@@ -1,11 +1,11 @@
 <div class="modal fade" #modalElement tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-grande">
         <div class="modal-content bg-dark-custom border-secondary text-white">
 
             <div class="modal-header border-secondary">
                 @if(zona){
                 <h5 class="modal-title fw-bold text-primary-custom">
-                    {{ zona.tipoZona.nombre || 'Zona ' + zona.id }}
+                    {{ zona.tipoZona.nombre }}
                     <span class="text-secondary small italic ms-2">({{zona.filas}}x{{zona.columnas}})</span>
                 </h5>
                 }
@@ -15,25 +15,32 @@
             <div class="modal-body">
 
                 @if(cargando){
-                <span class="mt-2 text-white">Cargando...</span>
+                <div class="d-flex flex-column align-items-center justify-content-center py-5 w-100">
+                    <div class="spinner-border text-white" role="status">
+                        <span class="visually-hidden">Cargando...</span>
+                    </div>
+                    <span class="mt-2 text-white">Cargando...</span>
+                </div>
                 }@else if(zona){
                 <div class="d-flex justify-content-center gap-4 mb-4 small italic">
-                    <div class="d-flex align-items-center"><span class="leyenda-box libre me-2"></span> Libre</div>
-                    <div class="d-flex align-items-center"><span class="leyenda-box ocupada me-2"></span> Ocupada</div>
+                    <div class="d-flex align-items-center"><span class="leyenda-box bg-success me-2"></span> Libre</div>
+                    <div class="d-flex align-items-center"><span class="leyenda-box bg-primary me-2"></span> Mía</div>
+                    <div class="d-flex align-items-center"><span class="leyenda-box bg-danger me-2"></span> Ocupada</div>
                 </div>
 
                 <div class="grid-parcelas" [style.gridTemplateColumns]="'repeat(' + zona.columnas + ', 75px)'">
                     @for (parcela of parcelas; track parcela.id) {
-                    <div class="parcela-item" [class.ocupada]="parcela.ocupada" [class.libre]="!parcela.ocupada"
-                        (click)="clickParcela(parcela)" [title]="'Parcela ' + parcela.numero">
 
-                        <span class="parcela-numero">{{ parcela.numero }}</span>
+                    <div class="parcela-item" [class.bg-success]="esLibre(parcela.id)"
+                        [class.bg-primary]="esMia(parcela.id)"
+                        [class.bg-danger]="!esLibre(parcela.id) && !esMia(parcela.id)" (click)="clickParcela(parcela)"
+                        [title]="'Parcela ' + parcela.numero" > <span class="parcela-numero">{{
+                            parcela.numero }}</span>
 
-                        @if(parcela.ocupada){
-                        <i class="bi bi-lock-fill fs-5"></i>
-                        } @else {
-                        <i class="bi bi-cart-plus fs-5 cart-icon"></i>
-                        }
+                        @if(esMia(parcela.id)){
+                        <i class="bi bi-person-fill fs-5"></i> } @else if(esLibre(parcela.id)){
+                        <i class="bi bi-cart-plus fs-5 cart-icon"></i> } @else {
+                        <i class="bi bi-lock-fill fs-5"></i> }
                     </div>
                     }
                 </div>

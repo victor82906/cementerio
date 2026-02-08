@@ -3,10 +3,11 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth-service';
 import { Cabecera } from "../cabecera/cabecera";
 import { Footer } from "../footer/footer";
+import { AudioHome } from '../audio-home/audio-home';
 
 @Component({
   selector: 'app-ayuntamiento',
-  imports: [RouterLink, Cabecera, Footer],
+  imports: [RouterLink, Cabecera, Footer, AudioHome],
   templateUrl: './ayuntamiento.html',
   styleUrl: './ayuntamiento.css',
 })
