@@ -1,5 +1,23 @@
 <app-cabecera></app-cabecera>
 
+<header class="hero-section text-white text-center py-5">
+    <div class="container py-5">
+        <h1 class="display-4 fw-bold animate-enter fade-down">Un lugar en el cielo</h1>
+        
+        <p class="lead mb-4 animate-enter fade-in delay-1">Encuentre y gestione espacios de descanso con la dignidad que merecen.</p>
+
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="input-group input-group-lg shadow animate-enter fade-up delay-2">
+                    <input type="text" class="form-control"
+                        placeholder="Buscar cementerio por nombre o ayuntamiento..." [(ngModel)]="busqueda">
+                    <button class="btn btn-primary-custom" type="button" (click)="buscar()">Buscar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
 <div class="container py-5">
 
     <div class="row g-4 mt-2">
@@ -34,21 +52,7 @@
         <div class="col-md-4">
             <div class="card bg-dark-custom border-secondary h-100 shadow-lg text-white">
                 <div class="card-body text-center p-4">
-                    <i class="bi bi-moisture fs-1 text-primary-custom mb-3 d-block"></i>
-                    <h5 class="fw-bold mb-3">CEMENTERIOS</h5>
-                    <p class="text-secondary small">Control de camposantos, mapas y tiempos de exhumación.</p>
-                    <button class="btn btn-primary-custom w-100 mt-2 text-uppercase fw-bold"
-                        routerLink="/busqueda-cementerio">
-                        Buscar Cementerios
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card bg-dark-custom border-secondary h-100 shadow-lg text-white">
-                <div class="card-body text-center p-4">
-                    <i class="bi bi-moisture fs-1 text-primary-custom mb-3 d-block"></i>
+                    <i class="bi bi-card-checklist fs-1 text-primary-custom mb-3 d-block"></i>
                     <h5 class="fw-bold mb-3">TIPO SERVICIOS</h5>
                     <p class="text-secondary small">Gestion de los tipos de servicios, crear nuevos y borrar existentes.</p>
                     <button class="btn btn-primary-custom w-100 mt-2 text-uppercase fw-bold"
