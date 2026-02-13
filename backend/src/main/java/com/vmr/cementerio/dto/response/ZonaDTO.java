@@ -1,7 +1,5 @@
 package com.vmr.cementerio.dto.response;
 
-import java.util.Set;
-import com.vmr.cementerio.model.Parcela;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

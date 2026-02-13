@@ -56,6 +56,11 @@ public class ZonaController {
         return ResponseEntity.ok(parcelaService.findByZonaId(id));
     }
 
+    @GetMapping("/{id}/parcela/libre")
+    public ResponseEntity<List<ParcelaDTO>> getParcelasLibres(@PathVariable Long id){
+        return ResponseEntity.ok(parcelaService.findParcelasLibresByZonaId(id));
+    }
+
     @PostMapping("/{id}/parcela")
     @PreAuthorize("hasRole('ADMIN') or (hasRole('AYUNTAMIENTO') and @zonaRepository.existsByIdAndCementerioAyuntamientoId(#id, principal.id))")
     public ResponseEntity<ParcelaDTO> saveParcela(@PathVariable Long id, @Valid @RequestBody ParcelaDTO parcelaDTO){

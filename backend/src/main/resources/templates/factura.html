@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <style>
+        @page { size: A4; margin: 2.5cm; }
+        body { font-family: sans-serif; color: #333; font-size: 14px; line-height: 1.6; }
+        
+        .header { width: 100%; border-bottom: 2px solid #1a3a5f; padding-bottom: 20px; margin-bottom: 30px; }
+        .logo { font-size: 26px; font-weight: bold; color: #1a3a5f; text-transform: uppercase; }
+        .factura-info { text-align: right; color: #666; }
+        
+        .cols { width: 100%; margin-bottom: 40px; }
+        .col { width: 48%; display: inline-block; vertical-align: top; }
+        .col-right { text-align: right; }
+        
+        h3 { color: #1a3a5f; border-bottom: 1px solid #ddd; padding-bottom: 5px; margin-bottom: 10px; font-size: 16px; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th { background-color: #f8f9fa; color: #1a3a5f; text-align: left; padding: 12px; border-bottom: 2px solid #dee2e6; }
+        td { padding: 12px; border-bottom: 1px solid #dee2e6; }
+        
+        .total-section { margin-top: 30px; text-align: right; }
+        .total-row { font-size: 18px; font-weight: bold; color: #1a3a5f; }
+        
+        .footer { position: fixed; bottom: 0; left: 0; right: 0; text-align: center; font-size: 10px; color: #999; border-top: 1px solid #eee; padding-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div style="float: left;" class="logo">FACTURA</div>
+        <div class="factura-info">
+            <strong>Nº Factura:</strong> <span th:text="${factura.id}">000</span><br/>
+            <strong>Fecha de Emisión:</strong> <span th:text="${#temporals.format(factura.fecha, 'dd/MM/yyyy')}">01/01/2024</span>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+
+    <div class="cols">
+        <div class="col">
+            <h3>EMISOR</h3>
+            <strong th:text="${factura.nombreAyto}">Ayuntamiento de Ejemplo</strong><br/>
+            Código Ayto: <span th:text="${factura.codigoAyto}">12345</span><br/>
+            <span>Gestión Municipal de Cementerios</span>
+        </div>
+
+        <div class="col col-right">
+            <h3>CLIENTE</h3>
+            <strong th:text="${factura.nombre} + ' ' + ${factura.apellidos}">Nombre Cliente</strong><br/>
+            Teléfono: <span th:text="${factura.telefono}">600000000</span>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 70%;">CONCEPTO / DESCRIPCIÓN</th>
+                <th style="text-align: right;">IMPORTE</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td th:text="${factura.concepto}">Descripción del servicio o concesión</td>
+                <td style="text-align: right;" th:text="${factura.importe} + ' €'">0.00 €</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="total-section">
+        <div class="total-row">
+            TOTAL A PAGAR: <span th:text="${factura.importe} + ' €'">0.00 €</span>
+        </div>
+    </div>
+
+    <div class="footer">
+        Documento generado electrónicamente por el sistema de gestión de cementerios "Eterno".
+    </div>
+
+</body>
+</html>

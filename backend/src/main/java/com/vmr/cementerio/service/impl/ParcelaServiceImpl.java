@@ -105,4 +105,11 @@ public class ParcelaServiceImpl implements ParcelaService{
         return zonaMapper.toDTO(parcela.getZona());
     }
 
+    public List<ParcelaDTO> findParcelasLibresByZonaId(Long id){
+        return parcelaRepository.findByZonaIdAndConcesionIsNull(id)
+                .stream()
+                .map(parcelaMapper::toDTO)
+                .toList();
+    }
+
 }

@@ -18,9 +18,11 @@ import com.vmr.cementerio.dto.response.AyuntamientoDTO;
 import java.util.List;
 import jakarta.validation.Valid;
 import com.vmr.cementerio.dto.response.CementerioDTO;
+import com.vmr.cementerio.dto.response.FacturaDTO;
 import com.vmr.cementerio.dto.response.ServicioDTO;
 import com.vmr.cementerio.service.AyuntamientoService;
 import com.vmr.cementerio.service.CementerioService;
+import com.vmr.cementerio.service.FacturaService;
 import com.vmr.cementerio.dto.response.AyuntamientoEditDTO;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
@@ -35,6 +37,7 @@ public class AyuntamientoController {
     private final AyuntamientoService ayuntamientoService;
     private final CementerioService cementerioService;
     private final ServicioService servicioService;
+    private final FacturaService facturaService;
 
     @GetMapping
     public ResponseEntity<List<AyuntamientoDTO>> getAll(@RequestParam(required = false) String nombre){
@@ -86,6 +89,12 @@ public class AyuntamientoController {
     @PreAuthorize("hasRole('ADMIN') or (hasRole('AYUNTAMIENTO') and #id == principal.id)")
     public ResponseEntity<List<ServicioDTO>> getServicios(@PathVariable Long id){
         return ResponseEntity.ok(servicioService.getServiciosByAyuntamientoId(id));
+    }
+
+    @GetMapping("/{id}/factura")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('AYUNTAMIENTO') and #id == principal.id)")
+    public ResponseEntity<List<FacturaDTO>> getFacturas(@PathVariable Long id){
+        return ResponseEntity.ok(facturaService.findByAyuntamientoId(id));
     }
 
 }

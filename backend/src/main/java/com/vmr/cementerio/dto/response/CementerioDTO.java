@@ -1,6 +1,5 @@
 package com.vmr.cementerio.dto.response;
 
-import java.util.Set;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

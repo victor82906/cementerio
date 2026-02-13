@@ -67,7 +67,7 @@ public class DifuntoServiceImpl implements DifuntoService{
         }
         parcelaRepository.save(parcela);
         Servicio servicio = new Servicio();
-        servicio.setTipoServicio(tipoServicioRepository.findByNombre("Exhumacion")
+        servicio.setTipoServicio(tipoServicioRepository.findByNombre("Inhumacion")
                 .orElseThrow(() -> new EntityNotFoundException("Tipo de servicio no encontrado")));
         FacturaDTO factura = servicioService.save(parcela.getId(), servicioMapper.toDTO(servicio));
         return factura;
@@ -94,7 +94,7 @@ public class DifuntoServiceImpl implements DifuntoService{
         parcelaRepository.save(parcela);
         difuntoRepository.delete(difunto);
         Servicio servicio = new Servicio();
-        servicio.setTipoServicio(tipoServicioRepository.findByNombre("Inhumacion")
+        servicio.setTipoServicio(tipoServicioRepository.findByNombre("Exhumacion")
                 .orElseThrow(() -> new EntityNotFoundException("Tipo de servicio no encontrado")));
         FacturaDTO factura = servicioService.save(parcela.getId(), servicioMapper.toDTO(servicio));
         return factura;

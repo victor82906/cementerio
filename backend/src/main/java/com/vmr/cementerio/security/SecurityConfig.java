@@ -45,6 +45,9 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests((authorize) -> authorize
             
+                // fotos
+                .requestMatchers("/uploads/**").permitAll()
+
                 // ayuntamiento controller
                 .requestMatchers(HttpMethod.GET, "/ayuntamiento").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/ayuntamiento").hasRole("ADMIN")
@@ -89,6 +92,7 @@ public class SecurityConfig {
                 // servicio controller
                 .requestMatchers(HttpMethod.GET, "/servicio/{id}").authenticated()
                 .requestMatchers(HttpMethod.GET, "/servicio").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/servicio/{id}/realizado").hasAnyRole("ADMIN", "AYUNTAMIENTO")
                 .requestMatchers(HttpMethod.PUT, "/servicio/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/servicio/**").hasRole("ADMIN")
 
@@ -115,9 +119,10 @@ public class SecurityConfig {
 
                 // zona controller
                 .requestMatchers(HttpMethod.GET, "/zona/{id}/parcela").permitAll()
+                .requestMatchers(HttpMethod.GET, "/zona/{id}/parcela/libre").permitAll()
                 .requestMatchers(HttpMethod.GET, "/zona/{id}/cementerio").permitAll()
+                .requestMatchers(HttpMethod.GET, "/zona/{id}").permitAll()
                 .requestMatchers(HttpMethod.GET, "/zona").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.GET, "/zona/{id}").authenticated()
                 .requestMatchers("/zona/**").authenticated()
 
                 .requestMatchers("/auth/login").permitAll()
@@ -130,7 +135,7 @@ public class SecurityConfig {
             .authenticationEntryPoint((request, response, authException) -> {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 response.setContentType("application/json");
-                response.getWriter().write("{\"error\": \"Tu sesión ha terminado, por favor inicia sesión de nuevo.\"}");
+                response.getWriter().write("{\"error\": \"No tienes permiso.\"}");
             }))   
             .build();
     }

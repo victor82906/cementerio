@@ -47,6 +47,7 @@ public class ServicioController {
     }
 
     @PutMapping("/{id}/realizado")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('AYUNTAMIENTO') and @servicioRepository.existsByIdAndParcelaZonaCementerioAyuntamientoId(#id, principal.id))")
     public ResponseEntity<ServicioDTO> updateRealizado(@PathVariable Long id){
         return ResponseEntity.ok(servicioService.updateRealizado(id));
     }

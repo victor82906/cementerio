@@ -15,12 +15,35 @@ import com.vmr.cementerio.repository.FacturaRepository;
 import com.vmr.cementerio.model.Factura;
 import com.vmr.cementerio.model.Tarifa;
 import java.util.Set;
+import java.util.List;
+import com.vmr.cementerio.dto.response.FacturaDTO;
+import com.vmr.cementerio.mapper.FacturaMapper;
 
 @Service
 @RequiredArgsConstructor
 public class FacturaServiceImpl implements FacturaService{
     
     private final FacturaRepository facturaRepository;
+    private final FacturaMapper facturaMapper;
+
+    public Factura findById(Long id){
+        return facturaRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Factura no encontrada"));
+    }
+
+    public List<FacturaDTO> findByAyuntamientoId(Long id){
+        return facturaRepository.findDistinctByConcesion_Parcela_Zona_Cementerio_Ayuntamiento_IdOrServicio_Parcela_Zona_Cementerio_Ayuntamiento_Id(id, id)
+                .stream()
+                .map(facturaMapper::toDTO)
+                .toList();
+    }
+
+    public List<FacturaDTO> findByCiudadanoId(Long id){
+        return facturaRepository.findDistinctByConcesion_Ciudadano_IdOrServicio_Parcela_Concesion_Ciudadano_Id(id, id)
+                .stream()
+                .map(facturaMapper::toDTO)
+                .toList();
+    }
 
     @Transactional
     public Factura saveConcesion(Concesion concesion){

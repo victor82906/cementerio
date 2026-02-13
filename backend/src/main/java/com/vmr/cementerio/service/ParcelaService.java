@@ -26,4 +26,6 @@ public interface ParcelaService {
 
     public ZonaDTO findZonaByParcelaId(Long parcelaId);
 
-}
+    public List<ParcelaDTO> findParcelasLibresByZonaId(Long id);
+
+} 

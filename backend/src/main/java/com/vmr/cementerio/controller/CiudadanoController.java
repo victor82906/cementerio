@@ -21,7 +21,9 @@ import com.vmr.cementerio.dto.response.ConcesionDTO;
 import com.vmr.cementerio.service.CiudadanoService;
 import com.vmr.cementerio.service.ConcesionService;
 import com.vmr.cementerio.dto.response.DifuntoDTO;
+import com.vmr.cementerio.dto.response.FacturaDTO;
 import com.vmr.cementerio.service.DifuntoService;
+import com.vmr.cementerio.service.FacturaService;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,6 +33,7 @@ public class CiudadanoController {
     private final CiudadanoService ciudadanoService;
     private final ConcesionService concesionService;
     private final DifuntoService difuntoService;
+    private final FacturaService facturaService;
 
     @GetMapping
     public ResponseEntity<List<CiudadanoDTO>> getAll(@RequestParam(required = false) String nombre){
@@ -75,5 +78,12 @@ public class CiudadanoController {
     public ResponseEntity<List<DifuntoDTO>> getDifuntos(@PathVariable Long id){
         return ResponseEntity.ok(difuntoService.findDifuntosByCiudadanoId(id));
     }
+
+    @GetMapping("/{id}/factura")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('CIUDADANO') and #id == principal.id)")
+    public ResponseEntity<List<FacturaDTO>> getFacturas(@PathVariable Long id){
+        return ResponseEntity.ok(facturaService.findByCiudadanoId(id));
+    }
+
 
 }
